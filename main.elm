@@ -1,8 +1,5 @@
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput, onClick)
-import Http
-import Json.Decode as Json
 import Models exposing (..)
 import Routing exposing (Routing(..))
 import Login exposing (..)
