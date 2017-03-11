@@ -9033,7 +9033,194 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
-var _salvarubiomartinez$mci$Main$update = F2(
+var _salvarubiomartinez$mci$Msgs$LoginMsg = function (a) {
+	return {ctor: 'LoginMsg', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$SubmitLogin = {ctor: 'SubmitLogin'};
+var _salvarubiomartinez$mci$Msgs$UpdateLoginPsw = function (a) {
+	return {ctor: 'UpdateLoginPsw', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$UpdateLoginEmail = function (a) {
+	return {ctor: 'UpdateLoginEmail', _0: a};
+};
+
+var _salvarubiomartinez$mci$Login$loginView = function (login) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$p,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						A2(_elm_lang$core$Basics_ops['++'], 'email :', login.email)),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$p,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							A2(_elm_lang$core$Basics_ops['++'], 'passwotd :', login.psw)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h3,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Login'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$form,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('form-gorup'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$label,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Email'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$input,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('form-control'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$placeholder('enter email'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('email'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Events$onInput(
+																	function (st) {
+																		return _salvarubiomartinez$mci$Msgs$LoginMsg(
+																			_salvarubiomartinez$mci$Msgs$UpdateLoginEmail(st));
+																	}),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												},
+												{ctor: '[]'}),
+											_1: {ctor: '[]'}
+										}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('form-gorup'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$label,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Password'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$input,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('form-control'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$placeholder('enter password'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$type_('password'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onInput(
+																		function (st) {
+																			return _salvarubiomartinez$mci$Msgs$LoginMsg(
+																				_salvarubiomartinez$mci$Msgs$UpdateLoginPsw(st));
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}
+													},
+													{ctor: '[]'}),
+												_1: {ctor: '[]'}
+											}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('form-gorup'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$button,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('submit'),
+															_1: {ctor: '[]'}
+														}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('submit'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _salvarubiomartinez$mci$Login$loginUpdate = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
@@ -9057,308 +9244,58 @@ var _salvarubiomartinez$mci$Main$update = F2(
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			case 'GetDenuncias':
-				if (_p0._0.ctor === 'Ok') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								allItems: {
-									denuncias: _p0._0._0,
-									adhesiones: model.allItems.adhesiones,
-									colaboraciones: {ctor: '[]'}
-								}
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								error: _elm_lang$core$Maybe$Just(
-									_elm_lang$core$Basics$toString(_p0._0._0))
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				}
-			case 'ReadDenuncia':
-				if (_p0._0.ctor === 'Ok') {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								error: _elm_lang$core$Maybe$Just(
-									_elm_lang$core$Basics$toString(_p0._0._0))
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				}
 			default:
-				if (_p0._0.ctor === 'Ok') {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								error: _elm_lang$core$Maybe$Just(
-									_elm_lang$core$Basics$toString(_p0._0._0))
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				}
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
-var _salvarubiomartinez$mci$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
-var _salvarubiomartinez$mci$Main$LoginUser = F2(
+
+var _salvarubiomartinez$mci$Routing$Administracion = {ctor: 'Administracion'};
+var _salvarubiomartinez$mci$Routing$AdherirManifiesto = {ctor: 'AdherirManifiesto'};
+var _salvarubiomartinez$mci$Routing$EnviarDenuncia = {ctor: 'EnviarDenuncia'};
+var _salvarubiomartinez$mci$Routing$EnviarColaboracion = {ctor: 'EnviarColaboracion'};
+var _salvarubiomartinez$mci$Routing$Index = {ctor: 'Index'};
+var _salvarubiomartinez$mci$Routing$Registro = {ctor: 'Registro'};
+var _salvarubiomartinez$mci$Routing$Login = {ctor: 'Login'};
+
+var _salvarubiomartinez$mci$Models$LoginUser = F2(
 	function (a, b) {
 		return {email: a, psw: b};
 	});
-var _salvarubiomartinez$mci$Main$Usuario = F3(
+var _salvarubiomartinez$mci$Models$Usuario = F3(
 	function (a, b, c) {
 		return {id: a, nombre: b, dni: c};
 	});
-var _salvarubiomartinez$mci$Main$usuarioDecoder = A4(
+var _salvarubiomartinez$mci$Models$usuarioDecoder = A4(
 	_elm_lang$core$Json_Decode$map3,
-	_salvarubiomartinez$mci$Main$Usuario,
+	_salvarubiomartinez$mci$Models$Usuario,
 	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'nombre', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'dni', _elm_lang$core$Json_Decode$string));
-var _salvarubiomartinez$mci$Main$Denuncia = F5(
+var _salvarubiomartinez$mci$Models$Denuncia = F5(
 	function (a, b, c, d, e) {
 		return {id: a, usuarioId: b, fecha: c, nombre: d, exposicion: e};
 	});
-var _salvarubiomartinez$mci$Main$denunciaDecoder = A6(
+var _salvarubiomartinez$mci$Models$denunciaDecoder = A6(
 	_elm_lang$core$Json_Decode$map5,
-	_salvarubiomartinez$mci$Main$Denuncia,
+	_salvarubiomartinez$mci$Models$Denuncia,
 	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'fecha', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'nombre', _elm_lang$core$Json_Decode$string),
 	A2(_elm_lang$core$Json_Decode$field, 'exposicion', _elm_lang$core$Json_Decode$string));
-var _salvarubiomartinez$mci$Main$AdhesionManifiesto = F3(
+var _salvarubiomartinez$mci$Models$AdhesionManifiesto = F3(
 	function (a, b, c) {
 		return {id: a, usuarioId: b, info: c};
 	});
-var _salvarubiomartinez$mci$Main$Colaboracion = F3(
+var _salvarubiomartinez$mci$Models$Colaboracion = F3(
 	function (a, b, c) {
 		return {id: a, usuarioId: b, info: c};
 	});
-var _salvarubiomartinez$mci$Main$Model = F8(
+var _salvarubiomartinez$mci$Models$Model = F8(
 	function (a, b, c, d, e, f, g, h) {
 		return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, error: h};
 	});
-var _salvarubiomartinez$mci$Main$Administracion = {ctor: 'Administracion'};
-var _salvarubiomartinez$mci$Main$AdherirManifiesto = {ctor: 'AdherirManifiesto'};
-var _salvarubiomartinez$mci$Main$EnviarDenuncia = {ctor: 'EnviarDenuncia'};
-var _salvarubiomartinez$mci$Main$EnviarColaboracion = {ctor: 'EnviarColaboracion'};
-var _salvarubiomartinez$mci$Main$Index = {ctor: 'Index'};
-var _salvarubiomartinez$mci$Main$Registro = {ctor: 'Registro'};
-var _salvarubiomartinez$mci$Main$Login = {ctor: 'Login'};
-var _salvarubiomartinez$mci$Main$ReadDenuncia = function (a) {
-	return {ctor: 'ReadDenuncia', _0: a};
-};
-var _salvarubiomartinez$mci$Main$CreateDenuncia = function (a) {
-	return {ctor: 'CreateDenuncia', _0: a};
-};
-var _salvarubiomartinez$mci$Main$GetDenuncias = function (a) {
-	return {ctor: 'GetDenuncias', _0: a};
-};
-var _salvarubiomartinez$mci$Main$getDenuncias = A2(
-	_elm_lang$http$Http$send,
-	_salvarubiomartinez$mci$Main$GetDenuncias,
-	A2(
-		_elm_lang$http$Http$get,
-		'http://localhost:3000/denuncias',
-		_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Main$denunciaDecoder)));
-var _salvarubiomartinez$mci$Main$init = {
-	ctor: '_Tuple2',
-	_0: {
-		usuario: _elm_lang$core$Maybe$Nothing,
-		login: A2(_salvarubiomartinez$mci$Main$LoginUser, '', ''),
-		route: _salvarubiomartinez$mci$Main$Login,
-		allItems: {
-			denuncias: {ctor: '[]'},
-			adhesiones: {ctor: '[]'},
-			colaboraciones: {ctor: '[]'}
-		},
-		denuncia: _elm_lang$core$Maybe$Nothing,
-		adhesion: _elm_lang$core$Maybe$Nothing,
-		colaboracion: _elm_lang$core$Maybe$Nothing,
-		error: _elm_lang$core$Maybe$Nothing
-	},
-	_1: _salvarubiomartinez$mci$Main$getDenuncias
-};
-var _salvarubiomartinez$mci$Main$UpdateLoginPsw = function (a) {
-	return {ctor: 'UpdateLoginPsw', _0: a};
-};
-var _salvarubiomartinez$mci$Main$UpdateLoginEmail = function (a) {
-	return {ctor: 'UpdateLoginEmail', _0: a};
-};
-var _salvarubiomartinez$mci$Main$loginView = function (login) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$p,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(login.email),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$h3,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text('Login'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$form,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('form-gorup'),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$label,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Email'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$input,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('form-control'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$placeholder('enter email'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$type_('email'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onInput(_salvarubiomartinez$mci$Main$UpdateLoginEmail),
-															_1: {ctor: '[]'}
-														}
-													}
-												}
-											},
-											{ctor: '[]'}),
-										_1: {ctor: '[]'}
-									}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$div,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('form-gorup'),
-										_1: {ctor: '[]'}
-									},
-									{
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$label,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html$text('Password'),
-												_1: {ctor: '[]'}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$input,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('form-control'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$placeholder('enter password'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$type_('password'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onInput(_salvarubiomartinez$mci$Main$UpdateLoginPsw),
-																_1: {ctor: '[]'}
-															}
-														}
-													}
-												},
-												{ctor: '[]'}),
-											_1: {ctor: '[]'}
-										}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$div,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('form-gorup'),
-											_1: {ctor: '[]'}
-										},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$button,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$type_('submit'),
-														_1: {ctor: '[]'}
-													}
-												},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text('submit'),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}
-							}
-						}),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
+
 var _salvarubiomartinez$mci$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9389,11 +9326,11 @@ var _salvarubiomartinez$mci$Main$view = function (model) {
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
 								function () {
-									var _p1 = model.error;
-									if (_p1.ctor === 'Nothing') {
+									var _p0 = model.error;
+									if (_p0.ctor === 'Nothing') {
 										return '';
 									} else {
-										return A2(_elm_lang$core$Basics_ops['++'], 'error: ', _p1._0);
+										return A2(_elm_lang$core$Basics_ops['++'], 'error: ', _p0._0);
 									}
 								}()),
 							_1: {ctor: '[]'}
@@ -9403,10 +9340,10 @@ var _salvarubiomartinez$mci$Main$view = function (model) {
 			_1: {
 				ctor: '::',
 				_0: function () {
-					var _p2 = model.route;
-					switch (_p2.ctor) {
+					var _p1 = model.route;
+					switch (_p1.ctor) {
 						case 'Login':
-							return _salvarubiomartinez$mci$Main$loginView(model.login);
+							return _salvarubiomartinez$mci$Login$loginView(model.login);
 						case 'Registro':
 							return A2(
 								_elm_lang$html$Html$div,
@@ -9507,8 +9444,38 @@ var _salvarubiomartinez$mci$Main$view = function (model) {
 			}
 		});
 };
+var _salvarubiomartinez$mci$Main$update = F2(
+	function (msg, model) {
+		var _p2 = msg;
+		return A2(_salvarubiomartinez$mci$Login$loginUpdate, _p2._0, model);
+	});
+var _salvarubiomartinez$mci$Main$init = {
+	ctor: '_Tuple2',
+	_0: {
+		usuario: _elm_lang$core$Maybe$Nothing,
+		login: A2(_salvarubiomartinez$mci$Models$LoginUser, '', ''),
+		route: _salvarubiomartinez$mci$Routing$Login,
+		allItems: {
+			denuncias: {ctor: '[]'},
+			adhesiones: {ctor: '[]'},
+			colaboraciones: {ctor: '[]'}
+		},
+		denuncia: _elm_lang$core$Maybe$Nothing,
+		adhesion: _elm_lang$core$Maybe$Nothing,
+		colaboracion: _elm_lang$core$Maybe$Nothing,
+		error: _elm_lang$core$Maybe$Nothing
+	},
+	_1: _elm_lang$core$Platform_Cmd$none
+};
 var _salvarubiomartinez$mci$Main$main = _elm_lang$html$Html$program(
-	{init: _salvarubiomartinez$mci$Main$init, view: _salvarubiomartinez$mci$Main$view, update: _salvarubiomartinez$mci$Main$update, subscriptions: _salvarubiomartinez$mci$Main$subscriptions})();
+	{
+		init: _salvarubiomartinez$mci$Main$init,
+		view: _salvarubiomartinez$mci$Main$view,
+		update: _salvarubiomartinez$mci$Main$update,
+		subscriptions: function (model) {
+			return _elm_lang$core$Platform_Sub$none;
+		}
+	})();
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
