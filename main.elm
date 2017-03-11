@@ -1,4 +1,5 @@
 import Html exposing (..)
+import Html.Attributes exposing (class)
 import Http
 import Json.Decode as Json
 
@@ -17,8 +18,8 @@ subscriptions model =
 
 --Model
 type alias Usuario = {id : Int, nombre : String, dni :String}
-type alias Denuncia = {id: Int, usuarioId : Int, fecha : String, exposicion : String, comentarios : List Comentario}
-type alias Comentario = {autor: String, fecha : String, contenido : String}
+type alias Denuncia = {id: Int, usuarioId : Int, fecha : String, nombre: String, exposicion : String, comentarios : List Comentario}
+type alias Comentario = {autor: String, hora : String, contenido : String}
 
 type alias Model = {usuario: Usuario, 
                     denuncias: List Denuncia,
@@ -34,11 +35,12 @@ usuarioDecoder = Json.map3
     (Json.field "dni" Json.string)
 
 denunciaDecoder: Json.Decoder Denuncia
-denunciaDecoder = Json.map5
+denunciaDecoder = Json.map6
   Denuncia
     (Json.field "id" Json.int)
     (Json.field "usuarioId" Json.int)
     (Json.field "fecha" Json.string)
+    (Json.field "nombre" Json.string)
     (Json.field "exposicion" Json.string)
     (Json.field "comentarios" (Json.list comentarioDecoder))
 
@@ -46,12 +48,12 @@ comentarioDecoder: Json.Decoder Comentario
 comentarioDecoder = Json.map3
     Comentario 
         (Json.field "autor" Json.string)
-        (Json.field "fecha" Json.string)
+        (Json.field "hora" Json.string)
         (Json.field "contenido" Json.string)
 
 -- Init
 init : (Model, Cmd Msg)
-init = (Model (Usuario 1 "Mario Casas" "12345678M")  [] (Denuncia 0 0 "" "" []) "no error", getDenuncias)
+init = (Model (Usuario 1 "Mario Casas" "12345678M")  [] (Denuncia 0 0 "" "" "" []) "no error", getDenuncias)
 
 type Msg = GetDenuncias (Result Http.Error (List Denuncia))
   | CreateDenuncia (Result Http.Error (List Denuncia))
@@ -91,14 +93,22 @@ update msg model =
         ({model|error = toString a}, Cmd.none)
 
 view : Model -> Html Msg
-view model = div [][
-  div [][
-    p [][text ("error: " ++ model.error)]
+view model = div [class "container"][
+  div [class "panel panel-warning"][
+    div [class "panel-body"][text ("error: " ++ model.error)]
   ],
-  div []<| List.map (\ denuncia -> p[][text denuncia.exposicion]) model.denuncias]
+  h1 [][text "Tus denuncias"],
+  div [class "list-group"]
+    <| List.map (\ denuncia ->
+    a [class "list-group-item"][
+        h4 [class "list-group-item-heading"][text denuncia.nombre],
+        p[class "list-group-item-text"][text denuncia.fecha]
+    ]
+    
+    ) model.denuncias]
    
 
 getDenuncias: Cmd Msg
 getDenuncias = Http.send GetDenuncias 
-  <| Http.get "http://localhost:3000/candidates" 
+  <| Http.get "http://localhost:3000/denuncias" 
   <| Json.list denunciaDecoder

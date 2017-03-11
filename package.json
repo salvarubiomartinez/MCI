@@ -5,7 +5,8 @@
   "main": "main.elm",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server":"json-server --watch db.json"
+    "server":"json-server --watch db.json",
+    "client":"elm-live Main.elm --output=elm.js --open"
   },
   "repository": {
     "type": "git",
