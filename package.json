@@ -1,0 +1,26 @@
+{
+  "name": "mci",
+  "version": "1.0.0",
+  "description": "mci web app",
+  "main": "main.elm",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server":"json-server --watch db.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salvarubiomartinez/MCI.git"
+  },
+  "keywords": [
+    "mci"
+  ],
+  "author": "Salvador Rubio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/salvarubiomartinez/MCI/issues"
+  },
+  "homepage": "https://github.com/salvarubiomartinez/MCI#readme",
+  "devDependencies": {
+    "json-server": "^0.9.6"
+  }
+}

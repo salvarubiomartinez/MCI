@@ -1,0 +1,22 @@
+{"usuarios":[
+    {
+        "id":1,
+        "nombre":"Felipe Martínez",
+        "dni":"12345678A"
+    }
+],
+"denuncias":[
+    {
+        "id":1,
+        "usuarioId":1,
+        "fecha":"12-12-2016",
+        "exposición":"bla bla bla",
+        "comentarios":[
+            {
+                "autor":"Felipe Martínez",
+                "hora":"12:12:34:0000 12-12-2016",
+                "contendio":"bla bla"
+            }
+        ]
+    }
+]}
