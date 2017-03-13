@@ -1,7 +1,8 @@
 module Routing exposing (..)
 
 --Routing
-type Routing = Login
+type Routing = 
+    Login
     | Registro
     | Index
     | EnviarColaboracion

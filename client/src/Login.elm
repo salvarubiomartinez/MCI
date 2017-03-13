@@ -3,6 +3,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import Msgs exposing (..)
+import Routing exposing (..)
 
 loginUpdate msg model =
             case msg of
@@ -17,7 +18,7 @@ loginView login = div [][
     p [][text <| "email :" ++ login.email],
     p [][text <| "passwotd :" ++ login.psw],
     h3 [][text "Login"],
-    Html.form [][
+    div [][
         div [class "form-gorup"][
                 label [][text "Email"],
                 input [class "form-control",placeholder "enter email", type_ "email", onInput (\st -> LoginMsg (UpdateLoginEmail st)) ][]
@@ -27,7 +28,10 @@ loginView login = div [][
                 input [class "form-control",placeholder "enter password", type_ "password", onInput (\st -> LoginMsg (UpdateLoginPsw st))][]
             ],
         div [class "form-gorup"][
-             button [class "btn btn-default", type_ "submit"][text "submit"]
+             button [class "btn btn-default", onClick (UpdateRoute Administracion)][text "admin"]
+            ],
+        div [class "form-gorup"][
+             button [class "btn btn-default", onClick (UpdateRoute Index)][text "user"]
             ]
         ]
     ]

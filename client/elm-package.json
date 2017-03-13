@@ -4,7 +4,7 @@
     "repository": "https://github.com/salvarubiomartinez/mci.git",
     "license": "BSD3",
     "source-directories": [
-        "nesting","."
+        "nesting","src","src/Administracion"
     ],
     "exposed-modules": [],
     "dependencies": {

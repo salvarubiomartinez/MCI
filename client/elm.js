@@ -9033,6 +9033,59 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
+var _salvarubiomartinez$mci$Routing$Administracion = {ctor: 'Administracion'};
+var _salvarubiomartinez$mci$Routing$AdherirManifiesto = {ctor: 'AdherirManifiesto'};
+var _salvarubiomartinez$mci$Routing$EnviarDenuncia = {ctor: 'EnviarDenuncia'};
+var _salvarubiomartinez$mci$Routing$EnviarColaboracion = {ctor: 'EnviarColaboracion'};
+var _salvarubiomartinez$mci$Routing$Index = {ctor: 'Index'};
+var _salvarubiomartinez$mci$Routing$Registro = {ctor: 'Registro'};
+var _salvarubiomartinez$mci$Routing$Login = {ctor: 'Login'};
+
+var _salvarubiomartinez$mci$Models$LoginUser = F2(
+	function (a, b) {
+		return {email: a, psw: b};
+	});
+var _salvarubiomartinez$mci$Models$Usuario = F3(
+	function (a, b, c) {
+		return {id: a, nombre: b, dni: c};
+	});
+var _salvarubiomartinez$mci$Models$usuarioDecoder = A4(
+	_elm_lang$core$Json_Decode$map3,
+	_salvarubiomartinez$mci$Models$Usuario,
+	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'nombre', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'dni', _elm_lang$core$Json_Decode$string));
+var _salvarubiomartinez$mci$Models$Denuncia = F5(
+	function (a, b, c, d, e) {
+		return {id: a, usuarioId: b, fecha: c, nombre: d, exposicion: e};
+	});
+var _salvarubiomartinez$mci$Models$denunciaDecoder = A6(
+	_elm_lang$core$Json_Decode$map5,
+	_salvarubiomartinez$mci$Models$Denuncia,
+	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'fecha', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'nombre', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'exposicion', _elm_lang$core$Json_Decode$string));
+var _salvarubiomartinez$mci$Models$AdhesionManifiesto = F3(
+	function (a, b, c) {
+		return {id: a, usuarioId: b, info: c};
+	});
+var _salvarubiomartinez$mci$Models$Colaboracion = F3(
+	function (a, b, c) {
+		return {id: a, usuarioId: b, info: c};
+	});
+var _salvarubiomartinez$mci$Models$Model = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, error: h};
+	});
+
+var _salvarubiomartinez$mci$Msgs$UpdateRoute = function (a) {
+	return {ctor: 'UpdateRoute', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$AdministracionMsg = function (a) {
+	return {ctor: 'AdministracionMsg', _0: a};
+};
 var _salvarubiomartinez$mci$Msgs$LoginMsg = function (a) {
 	return {ctor: 'LoginMsg', _0: a};
 };
@@ -9043,6 +9096,242 @@ var _salvarubiomartinez$mci$Msgs$UpdateLoginPsw = function (a) {
 var _salvarubiomartinez$mci$Msgs$UpdateLoginEmail = function (a) {
 	return {ctor: 'UpdateLoginEmail', _0: a};
 };
+var _salvarubiomartinez$mci$Msgs$GetInfo = function (a) {
+	return {ctor: 'GetInfo', _0: a};
+};
+
+var _salvarubiomartinez$mci$Administracion$administracionView = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Tus denuncias'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$ul,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('nav nav-tabs'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$li,
+							{
+								ctor: '::',
+								_0: A2(_elm_lang$html$Html_Attributes$attribute, 'role', 'presentation'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$a,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Denuncias'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$li,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$a,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('subscripciones'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$li,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$a,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('colaboracion'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('tab-content'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('tab-pane'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('list-group'),
+											_1: {ctor: '[]'}
+										},
+										A2(
+											_elm_lang$core$List$map,
+											function (denuncia) {
+												return A2(
+													_elm_lang$html$Html$a,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('list-group-item'),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$h4,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
+																_1: {ctor: '[]'}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(denuncia.nombre),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$p,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(denuncia.fecha),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}
+													});
+											},
+											model.allItems.denuncias)),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('tab-pane'),
+										_1: {ctor: '[]'}
+									},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('tab-pane'),
+											_1: {ctor: '[]'}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Login)),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Login'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		if (_p0._0.ctor === 'Ok') {
+			var allItems = model.allItems;
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						allItems: _elm_lang$core$Native_Utils.update(
+							allItems,
+							{denuncias: _p0._0._0})
+					}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		} else {
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						error: _elm_lang$core$Maybe$Just(
+							_elm_lang$core$Basics$toString(_p0._0._0))
+					}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		}
+	});
 
 var _salvarubiomartinez$mci$Login$loginView = function (login) {
 	return A2(
@@ -9083,7 +9372,7 @@ var _salvarubiomartinez$mci$Login$loginView = function (login) {
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$form,
+							_elm_lang$html$Html$div,
 							{ctor: '[]'},
 							{
 								ctor: '::',
@@ -9199,18 +9488,50 @@ var _salvarubiomartinez$mci$Login$loginView = function (login) {
 														_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$type_('submit'),
+															_0: _elm_lang$html$Html_Events$onClick(
+																_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Administracion)),
 															_1: {ctor: '[]'}
 														}
 													},
 													{
 														ctor: '::',
-														_0: _elm_lang$html$Html$text('submit'),
+														_0: _elm_lang$html$Html$text('admin'),
 														_1: {ctor: '[]'}
 													}),
 												_1: {ctor: '[]'}
 											}),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('form-gorup'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$button,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Events$onClick(
+																	_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Index)),
+																_1: {ctor: '[]'}
+															}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text('user'),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							}),
@@ -9249,54 +9570,25 @@ var _salvarubiomartinez$mci$Login$loginUpdate = F2(
 		}
 	});
 
-var _salvarubiomartinez$mci$Routing$Administracion = {ctor: 'Administracion'};
-var _salvarubiomartinez$mci$Routing$AdherirManifiesto = {ctor: 'AdherirManifiesto'};
-var _salvarubiomartinez$mci$Routing$EnviarDenuncia = {ctor: 'EnviarDenuncia'};
-var _salvarubiomartinez$mci$Routing$EnviarColaboracion = {ctor: 'EnviarColaboracion'};
-var _salvarubiomartinez$mci$Routing$Index = {ctor: 'Index'};
-var _salvarubiomartinez$mci$Routing$Registro = {ctor: 'Registro'};
-var _salvarubiomartinez$mci$Routing$Login = {ctor: 'Login'};
-
-var _salvarubiomartinez$mci$Models$LoginUser = F2(
-	function (a, b) {
-		return {email: a, psw: b};
-	});
-var _salvarubiomartinez$mci$Models$Usuario = F3(
-	function (a, b, c) {
-		return {id: a, nombre: b, dni: c};
-	});
-var _salvarubiomartinez$mci$Models$usuarioDecoder = A4(
-	_elm_lang$core$Json_Decode$map3,
-	_salvarubiomartinez$mci$Models$Usuario,
-	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'nombre', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'dni', _elm_lang$core$Json_Decode$string));
-var _salvarubiomartinez$mci$Models$Denuncia = F5(
-	function (a, b, c, d, e) {
-		return {id: a, usuarioId: b, fecha: c, nombre: d, exposicion: e};
-	});
-var _salvarubiomartinez$mci$Models$denunciaDecoder = A6(
-	_elm_lang$core$Json_Decode$map5,
-	_salvarubiomartinez$mci$Models$Denuncia,
-	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'fecha', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'nombre', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'exposicion', _elm_lang$core$Json_Decode$string));
-var _salvarubiomartinez$mci$Models$AdhesionManifiesto = F3(
-	function (a, b, c) {
-		return {id: a, usuarioId: b, info: c};
-	});
-var _salvarubiomartinez$mci$Models$Colaboracion = F3(
-	function (a, b, c) {
-		return {id: a, usuarioId: b, info: c};
-	});
-var _salvarubiomartinez$mci$Models$Model = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, error: h};
-	});
-
+var _salvarubiomartinez$mci$Main$getDenuncias = A2(
+	_elm_lang$http$Http$send,
+	function (a) {
+		return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
+			_salvarubiomartinez$mci$Msgs$GetInfo(a));
+	},
+	A2(
+		_elm_lang$http$Http$get,
+		'http://localhost:3000/denuncias',
+		_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$denunciaDecoder)));
 var _salvarubiomartinez$mci$Main$view = function (model) {
+	var error = function () {
+		var _p0 = model.error;
+		if (_p0.ctor === 'Nothing') {
+			return '';
+		} else {
+			return A2(_elm_lang$core$Basics_ops['++'], 'error: ', _p0._0);
+		}
+	}();
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -9325,14 +9617,13 @@ var _salvarubiomartinez$mci$Main$view = function (model) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
-								function () {
-									var _p0 = model.error;
-									if (_p0.ctor === 'Nothing') {
-										return '';
-									} else {
-										return A2(_elm_lang$core$Basics_ops['++'], 'error: ', _p0._0);
-									}
-								}()),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									error,
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										'route: ',
+										_elm_lang$core$Basics$toString(model.route)))),
 							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
@@ -9370,84 +9661,86 @@ var _salvarubiomartinez$mci$Main$view = function (model) {
 								{ctor: '[]'},
 								{ctor: '[]'});
 						default:
-							return A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$h1,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Tus denuncias'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$div,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('list-group'),
-												_1: {ctor: '[]'}
-											},
-											A2(
-												_elm_lang$core$List$map,
-												function (denuncia) {
-													return A2(
-														_elm_lang$html$Html$a,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('list-group-item'),
-															_1: {ctor: '[]'}
-														},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$h4,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
-																	_1: {ctor: '[]'}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(denuncia.nombre),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$p,
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
-																		_1: {ctor: '[]'}
-																	},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(denuncia.fecha),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {ctor: '[]'}
-															}
-														});
-												},
-												model.allItems.denuncias)),
-										_1: {ctor: '[]'}
-									}
-								});
+							return _salvarubiomartinez$mci$Administracion$administracionView(model);
 					}
 				}(),
 				_1: {ctor: '[]'}
 			}
 		});
 };
+var _salvarubiomartinez$mci$Main$updateRoute = F2(
+	function (route, model) {
+		var _p2 = route;
+		switch (_p2.ctor) {
+			case 'Login':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{route: route}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Registro':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{route: route}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Index':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{route: route}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'EnviarColaboracion':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{route: route}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'EnviarDenuncia':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{route: route}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'AdherirManifiesto':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{route: route}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{route: route}),
+					_1: _salvarubiomartinez$mci$Main$getDenuncias
+				};
+		}
+	});
 var _salvarubiomartinez$mci$Main$update = F2(
 	function (msg, model) {
-		var _p2 = msg;
-		return A2(_salvarubiomartinez$mci$Login$loginUpdate, _p2._0, model);
+		var _p3 = msg;
+		switch (_p3.ctor) {
+			case 'UpdateRoute':
+				return A2(_salvarubiomartinez$mci$Main$updateRoute, _p3._0, model);
+			case 'LoginMsg':
+				return A2(_salvarubiomartinez$mci$Login$loginUpdate, _p3._0, model);
+			default:
+				return A2(_salvarubiomartinez$mci$Administracion$administracionUpdate, _p3._0, model);
+		}
 	});
 var _salvarubiomartinez$mci$Main$init = {
 	ctor: '_Tuple2',
@@ -9476,6 +9769,30 @@ var _salvarubiomartinez$mci$Main$main = _elm_lang$html$Html$program(
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})();
+var _salvarubiomartinez$mci$Main$Cons = F2(
+	function (a, b) {
+		return {ctor: 'Cons', _0: a, _1: b};
+	});
+var _salvarubiomartinez$mci$Main$Nada = {ctor: 'Nada'};
+var _salvarubiomartinez$mci$Main$lista = A2(
+	_salvarubiomartinez$mci$Main$Cons,
+	3,
+	A2(
+		_salvarubiomartinez$mci$Main$Cons,
+		4,
+		A2(_salvarubiomartinez$mci$Main$Cons, 2, _salvarubiomartinez$mci$Main$Nada)));
+var _salvarubiomartinez$mci$Main$mapear = F2(
+	function (f, lis) {
+		var _p4 = lis;
+		if (_p4.ctor === 'Nada') {
+			return _salvarubiomartinez$mci$Main$Nada;
+		} else {
+			return A2(
+				_salvarubiomartinez$mci$Main$Cons,
+				f(_p4._0),
+				A2(_salvarubiomartinez$mci$Main$mapear, f, _p4._1));
+		}
+	});
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
