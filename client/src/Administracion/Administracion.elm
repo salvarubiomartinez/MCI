@@ -42,16 +42,17 @@ administracionUpdate msg model =
             ({model | selectedTab = selection, denuncia = Nothing, adhesion = Nothing, colaboracion = Nothing}, Cmd.none)
 
 
---getDenuncias: Cmd Msg
+getDenuncias: Cmd Msg
 getDenuncias = Http.send (\a -> AdministracionMsg (GetInfo a)) 
   <| Http.get "http://localhost:3000/denuncias" 
   <| Json.list denunciaDecoder
 
-
+getadhesionManifiesto: Cmd Msg
 getadhesionManifiesto = Http.send (\a -> AdministracionMsg (GetadhesionManifiesto a)) 
   <| Http.get "http://localhost:3000/adhesionManifiesto" 
   <| Json.list adhesionManifiestoDecoder
 
+getColaboracion: Cmd Msg
 getColaboracion = Http.send (\a -> AdministracionMsg (GetColaboracion a)) 
   <| Http.get "http://localhost:3000/colaboracion" 
   <| Json.list colaboracionDecoder
@@ -62,18 +63,21 @@ administracionView model =
                     denuncia = case model.denuncia of
                                 Nothing -> {nombre = "", exposicion= ""}
                                 Just denun -> {nombre= denun.nombre, exposicion = denun.exposicion}
+
                     adhesion = case model.adhesion of
                                 Nothing -> {usuarioId = "", info = ""}
                                 Just adhe -> {usuarioId = (toString adhe.usuarioId), info = adhe.info}
+
                     colaboracion = case model.colaboracion of
                                 Nothing -> {usuarioId = "", info = ""}
-                                Just adhe -> {usuarioId = (toString adhe.usuarioId), info = adhe.info}
+                                Just cola -> {usuarioId = (toString cola.usuarioId), info = cola.info}
+
                     tabDenuncias = if model.selectedTab == TabDenuncias then "tab-pane active" else "tab-pane"
                     tabAdhesiones = if model.selectedTab == TabAdhesiones then "tab-pane active" else "tab-pane"
                     tabColaboraciones = if model.selectedTab == TabColaboraciones then "tab-pane active" else "tab-pane"
                 in
                     div [][
-                        h1 [][text "Tus denuncias"],
+                        h1 [][text "Administración"],
                         ul [class "nav nav-tabs"][
                             li [attribute "role" "presentation"][
                                 a [onClick (AdministracionMsg (ChangeTab TabDenuncias))][text "Denuncias"]

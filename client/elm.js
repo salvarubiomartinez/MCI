@@ -9180,7 +9180,7 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Tus denuncias'),
+					_0: _elm_lang$html$Html$text('Administración'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
