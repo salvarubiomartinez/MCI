@@ -26,6 +26,7 @@ init = ({usuario = Nothing,
             denuncia = Nothing,
             adhesion = Nothing,
             colaboracion = Nothing,
+            selectedTab = TabDenuncias,
             error = Nothing}, 
         Cmd.none)
 
@@ -74,10 +75,7 @@ view model =
             ]
             
 
---getDenuncias: Cmd Msg
-getDenuncias = Http.send (\a -> AdministracionMsg (GetInfo a)) 
-  <| Http.get "http://localhost:3000/denuncias" 
-  <| Json.list denunciaDecoder
+
 
 --sendLogin: Cmd Msg
 --sendLogin = Http.send GetDenuncias 

@@ -40,14 +40,24 @@
         {
             "id":1,
             "usuarioId": 1,
-            "info": "bla bla"
+            "info": "Aliquam ex erat, tristique sed dapibus ac, maximus nec tellus. Aliquam tincidunt posuere facilisis. Duis vel finibus justo, et rutrum lacus. Duis blandit mi velit. Vestibulum vitae elementum ligula, non hendrerit massa. Nam venenatis commodo augue, sit amet venenatis elit porta sed. Pellentesque facilisis, mauris at semper dignissim, ligula nunc venenatis mauris, nec cursus enim augue sit amet justo."
+        },
+        {
+            "id":2,
+            "usuarioId": 2,
+            "info": "Duis vel finibus justo, et rutrum lacus. Duis blandit mi velit. Vestibulum vitae elementum ligula, non hendrerit massa. Nam venenatis commodo augue, sit amet venenatis elit porta sed. Pellentesque facilisis, mauris at semper dignissim, ligula nunc venenatis mauris, nec cursus enim augue sit amet justo. Donec sagittis lacus a ipsum molestie, aliquam elementum eros lacinia. Maecenas quis sem egestas, dapibus orci sit amet, scelerisque ex."
+        },
+        {
+            "id":3,
+            "usuarioId": 3,
+            "info": "Aliquam tincidunt posuere facilisis. Duis vel finibus justo, et rutrum lacus. . Pellentesque facilisis, mauris at semper dignissim, ligula nunc venenatis mauris, nec cursus enim augue sit amet justo. Donec sagittis lacus a ipsum molestie, aliquam elementum eros lacinia. Maecenas quis sem egestas, dapibus orci sit amet, scelerisque ex."
         }
     ],
     "colaboracion": [
         {
             "id":1,
             "usuarioId": 1,
-            "info": "bla bla"
+            "info": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tincidunt eros at risus convallis dapibus. Nulla facilisi. Etiam vel ante nibh. Maecenas nec lacus vel quam varius ultricies eu vitae sem. Mauris non ex et velit fringilla vehicula. Praesent quis aliquam elit. In hac habitasse platea dictumst. Etiam at turpis eu nisl interdum tincidunt. Maecenas hendrerit ultrices mi, vitae elementum elit tristique sed. Morbi ac augue nec ante posuere faucibus. Morbi tempus elit eget fringilla scelerisque."
         }
     ]
 }

@@ -18,3 +18,9 @@ type LoginMsgActions = UpdateLoginEmail String
 
 type AdministracionMsg = 
     GetInfo (Result Http.Error (List Denuncia))
+    | GetadhesionManifiesto (Result Http.Error (List AdhesionManifiesto))
+    | GetColaboracion (Result Http.Error (List Colaboracion))
+    | SelectDenuncia Denuncia
+    | SelectAdhesion AdhesionManifiesto
+    | SelectColaboracion Colaboracion
+    | ChangeTab TabSelection

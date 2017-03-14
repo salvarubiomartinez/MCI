@@ -10,6 +10,7 @@ type alias Denuncia = {id: Int, usuarioId : Int, fecha : String, nombre: String,
 --type alias Comentario = {autor: String, hora : String, contenido : String}
 type alias AdhesionManifiesto = {id: Int, usuarioId: Int, info : String}
 type alias Colaboracion = {id: Int, usuarioId: Int, info : String}
+type TabSelection = TabDenuncias | TabAdhesiones | TabColaboraciones
 
 type alias Model = {usuario: Maybe Usuario,
                     login: LoginUser,
@@ -18,6 +19,7 @@ type alias Model = {usuario: Maybe Usuario,
                     denuncia : Maybe Denuncia,
                     adhesion : Maybe AdhesionManifiesto,
                     colaboracion : Maybe Colaboracion,
+                    selectedTab : TabSelection,
                     error : Maybe String}
 
 --Decoders
@@ -37,6 +39,19 @@ denunciaDecoder = Json.map5
     (Json.field "nombre" Json.string)
     (Json.field "exposicion" Json.string)
 --   (Json.field "comentarios" (Json.list comentarioDecoder))
+
+adhesionManifiestoDecoder : Json.Decoder AdhesionManifiesto
+adhesionManifiestoDecoder = Json.map3
+  AdhesionManifiesto
+    (Json.field "id" Json.int)
+    (Json.field "usuarioId" Json.int)
+    (Json.field "info" Json.string)
+
+colaboracionDecoder = Json.map3
+  Colaboracion
+    (Json.field "id" Json.int)
+    (Json.field "usuarioId" Json.int)
+    (Json.field "info" Json.string)
 
 --comentarioDecoder: Json.Decoder Comentario
 --comentarioDecoder = Json.map3

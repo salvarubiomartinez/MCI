@@ -9071,14 +9071,29 @@ var _salvarubiomartinez$mci$Models$AdhesionManifiesto = F3(
 	function (a, b, c) {
 		return {id: a, usuarioId: b, info: c};
 	});
+var _salvarubiomartinez$mci$Models$adhesionManifiestoDecoder = A4(
+	_elm_lang$core$Json_Decode$map3,
+	_salvarubiomartinez$mci$Models$AdhesionManifiesto,
+	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'info', _elm_lang$core$Json_Decode$string));
 var _salvarubiomartinez$mci$Models$Colaboracion = F3(
 	function (a, b, c) {
 		return {id: a, usuarioId: b, info: c};
 	});
-var _salvarubiomartinez$mci$Models$Model = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, error: h};
+var _salvarubiomartinez$mci$Models$colaboracionDecoder = A4(
+	_elm_lang$core$Json_Decode$map3,
+	_salvarubiomartinez$mci$Models$Colaboracion,
+	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'info', _elm_lang$core$Json_Decode$string));
+var _salvarubiomartinez$mci$Models$Model = F9(
+	function (a, b, c, d, e, f, g, h, i) {
+		return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, selectedTab: h, error: i};
 	});
+var _salvarubiomartinez$mci$Models$TabColaboraciones = {ctor: 'TabColaboraciones'};
+var _salvarubiomartinez$mci$Models$TabAdhesiones = {ctor: 'TabAdhesiones'};
+var _salvarubiomartinez$mci$Models$TabDenuncias = {ctor: 'TabDenuncias'};
 
 var _salvarubiomartinez$mci$Msgs$UpdateRoute = function (a) {
 	return {ctor: 'UpdateRoute', _0: a};
@@ -9096,11 +9111,65 @@ var _salvarubiomartinez$mci$Msgs$UpdateLoginPsw = function (a) {
 var _salvarubiomartinez$mci$Msgs$UpdateLoginEmail = function (a) {
 	return {ctor: 'UpdateLoginEmail', _0: a};
 };
+var _salvarubiomartinez$mci$Msgs$ChangeTab = function (a) {
+	return {ctor: 'ChangeTab', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$SelectColaboracion = function (a) {
+	return {ctor: 'SelectColaboracion', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$SelectAdhesion = function (a) {
+	return {ctor: 'SelectAdhesion', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$SelectDenuncia = function (a) {
+	return {ctor: 'SelectDenuncia', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$GetColaboracion = function (a) {
+	return {ctor: 'GetColaboracion', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$GetadhesionManifiesto = function (a) {
+	return {ctor: 'GetadhesionManifiesto', _0: a};
+};
 var _salvarubiomartinez$mci$Msgs$GetInfo = function (a) {
 	return {ctor: 'GetInfo', _0: a};
 };
 
 var _salvarubiomartinez$mci$Administracion$administracionView = function (model) {
+	var tabColaboraciones = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabColaboraciones) ? 'tab-pane active' : 'tab-pane';
+	var tabAdhesiones = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabAdhesiones) ? 'tab-pane active' : 'tab-pane';
+	var tabDenuncias = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabDenuncias) ? 'tab-pane active' : 'tab-pane';
+	var colaboracion = function () {
+		var _p0 = model.colaboracion;
+		if (_p0.ctor === 'Nothing') {
+			return {usuarioId: '', info: ''};
+		} else {
+			var _p1 = _p0._0;
+			return {
+				usuarioId: _elm_lang$core$Basics$toString(_p1.usuarioId),
+				info: _p1.info
+			};
+		}
+	}();
+	var adhesion = function () {
+		var _p2 = model.adhesion;
+		if (_p2.ctor === 'Nothing') {
+			return {usuarioId: '', info: ''};
+		} else {
+			var _p3 = _p2._0;
+			return {
+				usuarioId: _elm_lang$core$Basics$toString(_p3.usuarioId),
+				info: _p3.info
+			};
+		}
+	}();
+	var denuncia = function () {
+		var _p4 = model.denuncia;
+		if (_p4.ctor === 'Nothing') {
+			return {nombre: '', exposicion: ''};
+		} else {
+			var _p5 = _p4._0;
+			return {nombre: _p5.nombre, exposicion: _p5.exposicion};
+		}
+	}();
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -9136,7 +9205,13 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$a,
-									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_salvarubiomartinez$mci$Msgs$AdministracionMsg(
+												_salvarubiomartinez$mci$Msgs$ChangeTab(_salvarubiomartinez$mci$Models$TabDenuncias))),
+										_1: {ctor: '[]'}
+									},
 									{
 										ctor: '::',
 										_0: _elm_lang$html$Html$text('Denuncias'),
@@ -9153,7 +9228,13 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$a,
-										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_salvarubiomartinez$mci$Msgs$AdministracionMsg(
+													_salvarubiomartinez$mci$Msgs$ChangeTab(_salvarubiomartinez$mci$Models$TabAdhesiones))),
+											_1: {ctor: '[]'}
+										},
 										{
 											ctor: '::',
 											_0: _elm_lang$html$Html$text('subscripciones'),
@@ -9170,7 +9251,13 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$a,
-											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(
+													_salvarubiomartinez$mci$Msgs$AdministracionMsg(
+														_salvarubiomartinez$mci$Msgs$ChangeTab(_salvarubiomartinez$mci$Models$TabColaboraciones))),
+												_1: {ctor: '[]'}
+											},
 											{
 												ctor: '::',
 												_0: _elm_lang$html$Html$text('colaboracion'),
@@ -9197,7 +9284,7 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 								_elm_lang$html$Html$div,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('tab-pane'),
+									_0: _elm_lang$html$Html_Attributes$class(tabDenuncias),
 									_1: {ctor: '[]'}
 								},
 								{
@@ -9206,7 +9293,7 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 										_elm_lang$html$Html$div,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('list-group'),
+											_0: _elm_lang$html$Html_Attributes$class('list-group col-md-4'),
 											_1: {ctor: '[]'}
 										},
 										A2(
@@ -9217,7 +9304,13 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 													{
 														ctor: '::',
 														_0: _elm_lang$html$Html_Attributes$class('list-group-item'),
-														_1: {ctor: '[]'}
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onClick(
+																_salvarubiomartinez$mci$Msgs$AdministracionMsg(
+																	_salvarubiomartinez$mci$Msgs$SelectDenuncia(denuncia))),
+															_1: {ctor: '[]'}
+														}
 													},
 													{
 														ctor: '::',
@@ -9252,7 +9345,49 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 													});
 											},
 											model.allItems.denuncias)),
-									_1: {ctor: '[]'}
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$div,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$p,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(
+																	A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', denuncia.nombre)),
+																_1: {ctor: '[]'}
+															}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$p,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(
+																		A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', denuncia.exposicion)),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}
+													}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
 								}),
 							_1: {
 								ctor: '::',
@@ -9260,20 +9395,224 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 									_elm_lang$html$Html$div,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('tab-pane'),
+										_0: _elm_lang$html$Html_Attributes$class(tabAdhesiones),
 										_1: {ctor: '[]'}
 									},
-									{ctor: '[]'}),
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('list-group col-md-4'),
+												_1: {ctor: '[]'}
+											},
+											A2(
+												_elm_lang$core$List$map,
+												function (denuncia) {
+													return A2(
+														_elm_lang$html$Html$a,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('list-group-item'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Events$onClick(
+																	_salvarubiomartinez$mci$Msgs$AdministracionMsg(
+																		_salvarubiomartinez$mci$Msgs$SelectAdhesion(denuncia))),
+																_1: {ctor: '[]'}
+															}
+														},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$h4,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(
+																		_elm_lang$core$Basics$toString(denuncia.usuarioId)),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$p,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
+																		_1: {ctor: '[]'}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(denuncia.info),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}
+														});
+												},
+												model.allItems.adhesiones)),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$p,
+																{ctor: '[]'},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(
+																		A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', adhesion.usuarioId)),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$p,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(
+																			A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', adhesion.info)),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}),
 								_1: {
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$div,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('tab-pane'),
+											_0: _elm_lang$html$Html_Attributes$class(tabColaboraciones),
 											_1: {ctor: '[]'}
 										},
-										{ctor: '[]'}),
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('list-group col-md-4'),
+													_1: {ctor: '[]'}
+												},
+												A2(
+													_elm_lang$core$List$map,
+													function (denuncia) {
+														return A2(
+															_elm_lang$html$Html$a,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('list-group-item'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(
+																		_salvarubiomartinez$mci$Msgs$AdministracionMsg(
+																			_salvarubiomartinez$mci$Msgs$SelectColaboracion(denuncia))),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$h4,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
+																		_1: {ctor: '[]'}
+																	},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(
+																			_elm_lang$core$Basics$toString(denuncia.usuarioId)),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$p,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
+																			_1: {ctor: '[]'}
+																		},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text(denuncia.info),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															});
+													},
+													model.allItems.colaboraciones)),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$div,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$div,
+															{ctor: '[]'},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$p,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(
+																			A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', colaboracion.usuarioId)),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$p,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text(
+																				A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', colaboracion.info)),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
+										}),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -9281,55 +9620,185 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$button,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
-								_1: {
+							_elm_lang$html$Html$hr,
+							{ctor: '[]'},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(
-										_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Login)),
+									_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Login)),
+										_1: {ctor: '[]'}
+									}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Login'),
 									_1: {ctor: '[]'}
-								}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Login'),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			}
 		});
 };
+var _salvarubiomartinez$mci$Administracion$getColaboracion = A2(
+	_elm_lang$http$Http$send,
+	function (a) {
+		return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
+			_salvarubiomartinez$mci$Msgs$GetColaboracion(a));
+	},
+	A2(
+		_elm_lang$http$Http$get,
+		'http://localhost:3000/colaboracion',
+		_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$colaboracionDecoder)));
+var _salvarubiomartinez$mci$Administracion$getadhesionManifiesto = A2(
+	_elm_lang$http$Http$send,
+	function (a) {
+		return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
+			_salvarubiomartinez$mci$Msgs$GetadhesionManifiesto(a));
+	},
+	A2(
+		_elm_lang$http$Http$get,
+		'http://localhost:3000/adhesionManifiesto',
+		_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$adhesionManifiestoDecoder)));
+var _salvarubiomartinez$mci$Administracion$getDenuncias = A2(
+	_elm_lang$http$Http$send,
+	function (a) {
+		return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
+			_salvarubiomartinez$mci$Msgs$GetInfo(a));
+	},
+	A2(
+		_elm_lang$http$Http$get,
+		'http://localhost:3000/denuncias',
+		_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$denunciaDecoder)));
 var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		if (_p0._0.ctor === 'Ok') {
-			var allItems = model.allItems;
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						allItems: _elm_lang$core$Native_Utils.update(
-							allItems,
-							{denuncias: _p0._0._0})
-					}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		} else {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						error: _elm_lang$core$Maybe$Just(
-							_elm_lang$core$Basics$toString(_p0._0._0))
-					}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
+		var _p6 = msg;
+		switch (_p6.ctor) {
+			case 'GetInfo':
+				if (_p6._0.ctor === 'Ok') {
+					var allItems = model.allItems;
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								allItems: _elm_lang$core$Native_Utils.update(
+									allItems,
+									{denuncias: _p6._0._0})
+							}),
+						_1: _salvarubiomartinez$mci$Administracion$getadhesionManifiesto
+					};
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								error: _elm_lang$core$Maybe$Just(
+									_elm_lang$core$Basics$toString(_p6._0._0))
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				}
+			case 'GetadhesionManifiesto':
+				if (_p6._0.ctor === 'Ok') {
+					var allItems = model.allItems;
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								allItems: _elm_lang$core$Native_Utils.update(
+									allItems,
+									{adhesiones: _p6._0._0})
+							}),
+						_1: _salvarubiomartinez$mci$Administracion$getColaboracion
+					};
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								error: _elm_lang$core$Maybe$Just(
+									_elm_lang$core$Basics$toString(_p6._0._0))
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				}
+			case 'GetColaboracion':
+				if (_p6._0.ctor === 'Ok') {
+					var allItems = model.allItems;
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								allItems: _elm_lang$core$Native_Utils.update(
+									allItems,
+									{colaboraciones: _p6._0._0})
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								error: _elm_lang$core$Maybe$Just(
+									_elm_lang$core$Basics$toString(_p6._0._0))
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				}
+			case 'SelectDenuncia':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							denuncia: _elm_lang$core$Maybe$Just(_p6._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SelectAdhesion':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							adhesion: _elm_lang$core$Maybe$Just(_p6._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SelectColaboracion':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							colaboracion: _elm_lang$core$Maybe$Just(_p6._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{selectedTab: _p6._0, denuncia: _elm_lang$core$Maybe$Nothing, adhesion: _elm_lang$core$Maybe$Nothing, colaboracion: _elm_lang$core$Maybe$Nothing}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 
@@ -9570,16 +10039,6 @@ var _salvarubiomartinez$mci$Login$loginUpdate = F2(
 		}
 	});
 
-var _salvarubiomartinez$mci$Main$getDenuncias = A2(
-	_elm_lang$http$Http$send,
-	function (a) {
-		return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
-			_salvarubiomartinez$mci$Msgs$GetInfo(a));
-	},
-	A2(
-		_elm_lang$http$Http$get,
-		'http://localhost:3000/denuncias',
-		_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$denunciaDecoder)));
 var _salvarubiomartinez$mci$Main$view = function (model) {
 	var error = function () {
 		var _p0 = model.error;
@@ -9726,7 +10185,7 @@ var _salvarubiomartinez$mci$Main$updateRoute = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{route: route}),
-					_1: _salvarubiomartinez$mci$Main$getDenuncias
+					_1: _salvarubiomartinez$mci$Administracion$getDenuncias
 				};
 		}
 	});
@@ -9756,6 +10215,7 @@ var _salvarubiomartinez$mci$Main$init = {
 		denuncia: _elm_lang$core$Maybe$Nothing,
 		adhesion: _elm_lang$core$Maybe$Nothing,
 		colaboracion: _elm_lang$core$Maybe$Nothing,
+		selectedTab: _salvarubiomartinez$mci$Models$TabDenuncias,
 		error: _elm_lang$core$Maybe$Nothing
 	},
 	_1: _elm_lang$core$Platform_Cmd$none
