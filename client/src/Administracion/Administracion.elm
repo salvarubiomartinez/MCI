@@ -80,13 +80,13 @@ administracionView model =
                         h1 [][text "Administración"],
                         ul [class "nav nav-tabs"][
                             li [attribute "role" "presentation"][
-                                a [onClick (AdministracionMsg (ChangeTab TabDenuncias))][text "Denuncias"]
+                                a [onClick (AdministracionMsg (ChangeTab TabDenuncias))][text "denuncias"]
                             ],
                             li [][
                                 a [ onClick (AdministracionMsg (ChangeTab TabAdhesiones))][text "subscripciones"]
                             ],
                             li [][
-                                a [onClick (AdministracionMsg (ChangeTab TabColaboraciones))][text "colaboracion"]
+                                a [onClick (AdministracionMsg (ChangeTab TabColaboraciones))][text "colaboraciones"]
                             ]
                         ],
                         div [class "tab-content"][

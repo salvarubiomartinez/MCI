@@ -19,18 +19,18 @@ loginView login = div [][
     p [][text <| "passwotd :" ++ login.psw],
     h3 [][text "Login"],
     div [][
-        div [class "form-gorup"][
+        div [class "form-group"][
                 label [][text "Email"],
                 input [class "form-control",placeholder "enter email", type_ "email", onInput (\st -> LoginMsg (UpdateLoginEmail st)) ][]
             ],
-        div [class "form-gorup"][
+        div [class "form-group"][
                 label [][text "Password"],
                 input [class "form-control",placeholder "enter password", type_ "password", onInput (\st -> LoginMsg (UpdateLoginPsw st))][]
             ],
-        div [class "form-gorup"][
+        div [class "form-group"][
              button [class "btn btn-default", onClick (UpdateRoute Administracion)][text "admin"]
             ],
-        div [class "form-gorup"][
+        div [class "form-group"][
              button [class "btn btn-default", onClick (UpdateRoute Index)][text "user"]
             ]
         ]

@@ -6,7 +6,7 @@ import Models exposing (..)
 type Msg = LoginMsg LoginMsgActions
 --    | RegistroMsg
 --    | IndexMsg
---    | EnviarColaboracionMsg
+    | EnviarColaboracionMsg EnviarColaboracionActions
 --    | EnviarDenunciaMsg
 --    | AdherirManifiestoMsg
     | AdministracionMsg AdministracionMsg
@@ -24,3 +24,8 @@ type AdministracionMsg =
     | SelectAdhesion AdhesionManifiesto
     | SelectColaboracion Colaboracion
     | ChangeTab TabSelection
+
+type EnviarColaboracionActions = 
+    UpdateColaboracion String
+    | PostColaboracion (Maybe Colaboracion)
+    | PostColaboracionResponse (Result Http.Error Colaboracion)

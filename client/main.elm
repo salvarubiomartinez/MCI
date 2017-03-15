@@ -4,6 +4,10 @@ import Models exposing (..)
 import Routing exposing (Routing(..))
 import Login exposing (..)
 import Administracion exposing (..)
+import Index exposing(..)
+import EnviarColaboracion exposing (..)
+import EnviarDenuncia exposing (..)
+import EnviarAdhesion exposing (..)
 import Msgs exposing (..)
 import Http exposing (..)
 import Json.Decode as Json
@@ -35,10 +39,12 @@ init = ({usuario = Nothing,
 update msg model = 
     case msg of UpdateRoute route ->
                     updateRoute route model
-                LoginMsg a ->
-                    loginUpdate a model
-                AdministracionMsg a ->
-                    administracionUpdate a model
+                LoginMsg action ->
+                    loginUpdate action model
+                AdministracionMsg action ->
+                    administracionUpdate action model
+                EnviarColaboracionMsg action ->
+                    enviarColaboracionUpdate action model
 
 updateRoute route model =
     case route of 
@@ -66,27 +72,10 @@ view model =
                 case model.route of      
                     Login -> loginView model.login
                     Registro -> div [][]
-                    Routing.Index -> div [][]                   
-                    EnviarColaboracion -> div [][] 
-                    EnviarDenuncia -> div [][] 
-                    AdherirManifiesto -> div [][]                   
+                    Index -> indexView model                  
+                    EnviarColaboracion -> enviarColaboracionView model 
+                    EnviarDenuncia -> enviarDenunciaView model 
+                    AdherirManifiesto -> enviarAdhesionView model                  
                     Administracion  -> administracionView model
             )
             ]
-            
-
-
-
---sendLogin: Cmd Msg
---sendLogin = Http.send GetDenuncias 
---  <| Http.get "http://localhost:3000/denuncias" 
---  <| Json.list denunciaDecoder
-
-type Lista a = Nada | Cons a (Lista a)
-
-lista = Cons 3 (Cons 4(Cons 2 Nada))
-
-mapear f lis =
-    case lis of 
-        Nada -> Nada
-        Cons x xs -> Cons (f x) (mapear f xs)
