@@ -72,64 +72,71 @@ administracionView model =
                                 Nothing -> {usuarioId = "", info = ""}
                                 Just cola -> {usuarioId = (toString cola.usuarioId), info = cola.info}
 
-                    tabDenuncias = if model.selectedTab == TabDenuncias then "tab-pane active" else "tab-pane"
-                    tabAdhesiones = if model.selectedTab == TabAdhesiones then "tab-pane active" else "tab-pane"
-                    tabColaboraciones = if model.selectedTab == TabColaboraciones then "tab-pane active" else "tab-pane"
+                    tabDenuncias = if model.selectedTab == TabDenuncias then "active" else ""
+                    tabAdhesiones = if model.selectedTab == TabAdhesiones then "active" else ""
+                    tabColaboraciones = if model.selectedTab == TabColaboraciones then "active" else ""
                 in
                     div [][
                         h1 [][text "Administración"],
-                        ul [class "nav nav-tabs"][
-                            li [attribute "role" "presentation"][
+                        ul [class "nav nav-tabs nav-justified"][
+                            li [ class tabDenuncias, attribute "role" "presentation"][
                                 a [onClick (AdministracionMsg (ChangeTab TabDenuncias))][text "denuncias"]
                             ],
-                            li [][
+                            li [class tabAdhesiones][
                                 a [ onClick (AdministracionMsg (ChangeTab TabAdhesiones))][text "subscripciones"]
                             ],
-                            li [][
+                            li [class tabColaboraciones][
                                 a [onClick (AdministracionMsg (ChangeTab TabColaboraciones))][text "colaboraciones"]
                             ]
                         ],
-                        div [class "tab-content"][
-                            div [class tabDenuncias][
-                                div [class "list-group col-md-4"]
-                                <| List.map (\ denuncia ->
-                                a [class "list-group-item", onClick (AdministracionMsg (SelectDenuncia denuncia))][
-                                    h4 [class "list-group-item-heading"][text denuncia.nombre],
-                                    p[class "list-group-item-text"][text denuncia.fecha]]) model.allItems.denuncias,
-                                div [class "col-md-8"][
-                                    div [][
-                                        p [][text ("nombre: " ++ denuncia.nombre)],
-                                        p [][text ("exposicion: " ++ denuncia.exposicion)]
+                        br [][],
+                        div [class "col-md-12"][
+                            div [class "tab-content"][
+                                div [class ("tab-pane" ++ tabDenuncias)][
+                                    div [class "list-group col-md-4"]
+                                    <| List.map (\ denun ->
+                                    a [class ("list-group-item" ++ (if denuncia.nombre == denun.nombre then " active" else "")),
+                                        onClick (AdministracionMsg (SelectDenuncia denun))][
+                                        h4 [class "list-group-item-heading"][text denun.nombre],
+                                        p[class "list-group-item-text"][text denun.fecha]]) model.allItems.denuncias,
+                                    div [class "col-md-8"][
+                                        div [][
+                                            p [][text ("nombre: " ++ denuncia.nombre)],
+                                            p [][text ("exposicion: " ++ denuncia.exposicion)]
+                                        ]
                                     ]
-                                ]
-                            ],
-                            div [class tabAdhesiones][
-                                div [class "list-group col-md-4"]
-                                <| List.map (\ denuncia ->
-                                a [class "list-group-item", onClick (AdministracionMsg (SelectAdhesion denuncia))][
-                                    h4 [class "list-group-item-heading"][text (toString denuncia.usuarioId)],
-                                    p[class "list-group-item-text"][text denuncia.info]]) model.allItems.adhesiones,
-                                div [class "col-md-8"][
-                                    div [][
-                                        p [][text ("nombre: " ++ adhesion.usuarioId)],
-                                        p [][text ("exposicion: " ++ adhesion.info)]
+                                ],
+                                div [class ("tab-pane" ++ tabAdhesiones)][
+                                    div [class "list-group col-md-4"]
+                                    <| List.map (\ denuncia ->
+                                    a [class ("list-group-item" ++ (if adhesion.info == denuncia.info then " active" else "")),
+                                        onClick (AdministracionMsg (SelectAdhesion denuncia))][
+                                        h4 [class "list-group-item-heading"][text (toString denuncia.usuarioId)],
+                                        p[class "list-group-item-text"][text denuncia.info]]) model.allItems.adhesiones,
+                                    div [class "col-md-8"][
+                                        div [][
+                                            p [][text ("nombre: " ++ adhesion.usuarioId)],
+                                            p [][text ("exposicion: " ++ adhesion.info)]
+                                        ]
                                     ]
-                                ]
-                            ],
-                            div [class tabColaboraciones][
-                                div [class "list-group col-md-4"]
-                                <| List.map (\ denuncia ->
-                                a [class "list-group-item", onClick (AdministracionMsg (SelectColaboracion denuncia))][
-                                    h4 [class "list-group-item-heading"][text (toString denuncia.usuarioId)],
-                                    p[class "list-group-item-text"][text denuncia.info]]) model.allItems.colaboraciones,
-                                div [class "col-md-8"][
-                                    div [][
-                                        p [][text ("nombre: " ++ colaboracion.usuarioId)],
-                                        p [][text ("exposicion: " ++ colaboracion.info)]
+                                ],
+                                div [class ("tab-pane" ++ tabColaboraciones)][
+                                    div [class "list-group col-md-4"]
+                                    <| List.map (\ denuncia ->
+                                    a [class ("list-group-item" ++ (if colaboracion.info == denuncia.info then " active" else "")), 
+                                        onClick (AdministracionMsg (SelectColaboracion denuncia))][
+                                        h4 [class "list-group-item-heading"][text (toString denuncia.usuarioId)],
+                                        p[class "list-group-item-text"][text denuncia.info]]) model.allItems.colaboraciones,
+                                    div [class "col-md-8"][
+                                        div [][
+                                            p [][text ("nombre: " ++ colaboracion.usuarioId)],
+                                            p [][text ("exposicion: " ++ colaboracion.info)]
+                                        ]
                                     ]
                                 ]
                             ]
-                        ],                        
+                        ]
+                        ,                        
                         hr [][],
                         button [class "btn btn-default", onClick (UpdateRoute Login)][text "Login"]
                         ]

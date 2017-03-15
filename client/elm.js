@@ -9146,9 +9146,9 @@ var _salvarubiomartinez$mci$Msgs$UpdateColaboracion = function (a) {
 };
 
 var _salvarubiomartinez$mci$Administracion$administracionView = function (model) {
-	var tabColaboraciones = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabColaboraciones) ? 'tab-pane active' : 'tab-pane';
-	var tabAdhesiones = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabAdhesiones) ? 'tab-pane active' : 'tab-pane';
-	var tabDenuncias = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabDenuncias) ? 'tab-pane active' : 'tab-pane';
+	var tabColaboraciones = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabColaboraciones) ? 'active' : '';
+	var tabAdhesiones = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabAdhesiones) ? 'active' : '';
+	var tabDenuncias = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabDenuncias) ? 'active' : '';
 	var colaboracion = function () {
 		var _p0 = model.colaboracion;
 		if (_p0.ctor === 'Nothing') {
@@ -9201,7 +9201,7 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 					_elm_lang$html$Html$ul,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('nav nav-tabs'),
+						_0: _elm_lang$html$Html_Attributes$class('nav nav-tabs nav-justified'),
 						_1: {ctor: '[]'}
 					},
 					{
@@ -9210,8 +9210,12 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 							_elm_lang$html$Html$li,
 							{
 								ctor: '::',
-								_0: A2(_elm_lang$html$Html_Attributes$attribute, 'role', 'presentation'),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html_Attributes$class(tabDenuncias),
+								_1: {
+									ctor: '::',
+									_0: A2(_elm_lang$html$Html_Attributes$attribute, 'role', 'presentation'),
+									_1: {ctor: '[]'}
+								}
 							},
 							{
 								ctor: '::',
@@ -9235,7 +9239,11 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 							ctor: '::',
 							_0: A2(
 								_elm_lang$html$Html$li,
-								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class(tabAdhesiones),
+									_1: {ctor: '[]'}
+								},
 								{
 									ctor: '::',
 									_0: A2(
@@ -9258,7 +9266,11 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$li,
-									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class(tabColaboraciones),
+										_1: {ctor: '[]'}
+									},
 									{
 										ctor: '::',
 										_0: A2(
@@ -9284,130 +9296,25 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('tab-content'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class(tabDenuncias),
-									_1: {ctor: '[]'}
-								},
-								{
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$div,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('list-group col-md-4'),
-											_1: {ctor: '[]'}
-										},
-										A2(
-											_elm_lang$core$List$map,
-											function (denuncia) {
-												return A2(
-													_elm_lang$html$Html$a,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('list-group-item'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onClick(
-																_salvarubiomartinez$mci$Msgs$AdministracionMsg(
-																	_salvarubiomartinez$mci$Msgs$SelectDenuncia(denuncia))),
-															_1: {ctor: '[]'}
-														}
-													},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$h4,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
-																_1: {ctor: '[]'}
-															},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text(denuncia.nombre),
-																_1: {ctor: '[]'}
-															}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$p,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
-																	_1: {ctor: '[]'}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(denuncia.fecha),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {ctor: '[]'}
-														}
-													});
-											},
-											model.allItems.denuncias)),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$div,
-											{
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
-												_1: {ctor: '[]'}
-											},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$div,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$p,
-															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text(
-																	A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', denuncia.nombre)),
-																_1: {ctor: '[]'}
-															}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$p,
-																{ctor: '[]'},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(
-																		A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', denuncia.exposicion)),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {ctor: '[]'}
-														}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}
-								}),
-							_1: {
+						_elm_lang$html$Html$br,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('col-md-12'),
+								_1: {ctor: '[]'}
+							},
+							{
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$div,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class(tabAdhesiones),
+										_0: _elm_lang$html$Html_Attributes$class('tab-content'),
 										_1: {ctor: '[]'}
 									},
 									{
@@ -9416,197 +9323,87 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 											_elm_lang$html$Html$div,
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$class('list-group col-md-4'),
+												_0: _elm_lang$html$Html_Attributes$class(
+													A2(_elm_lang$core$Basics_ops['++'], 'tab-pane', tabDenuncias)),
 												_1: {ctor: '[]'}
 											},
-											A2(
-												_elm_lang$core$List$map,
-												function (denuncia) {
-													return A2(
-														_elm_lang$html$Html$a,
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html_Attributes$class('list-group-item'),
-															_1: {
-																ctor: '::',
-																_0: _elm_lang$html$Html_Events$onClick(
-																	_salvarubiomartinez$mci$Msgs$AdministracionMsg(
-																		_salvarubiomartinez$mci$Msgs$SelectAdhesion(denuncia))),
-																_1: {ctor: '[]'}
-															}
-														},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$h4,
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
-																	_1: {ctor: '[]'}
-																},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(
-																		_elm_lang$core$Basics$toString(denuncia.usuarioId)),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$p,
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
-																		_1: {ctor: '[]'}
-																	},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(denuncia.info),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {ctor: '[]'}
-															}
-														});
-												},
-												model.allItems.adhesiones)),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$div,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
-													_1: {ctor: '[]'}
-												},
-												{
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$div,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$p,
-																{ctor: '[]'},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(
-																		A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', adhesion.usuarioId)),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$p,
-																	{ctor: '[]'},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(
-																			A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', adhesion.info)),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {ctor: '[]'}
-															}
-														}),
-													_1: {ctor: '[]'}
-												}),
-											_1: {ctor: '[]'}
-										}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$div,
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class(tabColaboraciones),
-											_1: {ctor: '[]'}
-										},
-										{
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$div,
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$class('list-group col-md-4'),
-													_1: {ctor: '[]'}
-												},
-												A2(
-													_elm_lang$core$List$map,
-													function (denuncia) {
-														return A2(
-															_elm_lang$html$Html$a,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('list-group-item'),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(
-																		_salvarubiomartinez$mci$Msgs$AdministracionMsg(
-																			_salvarubiomartinez$mci$Msgs$SelectColaboracion(denuncia))),
-																	_1: {ctor: '[]'}
-																}
-															},
-															{
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$h4,
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
-																		_1: {ctor: '[]'}
-																	},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(
-																			_elm_lang$core$Basics$toString(denuncia.usuarioId)),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$p,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
-																			_1: {ctor: '[]'}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(denuncia.info),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {ctor: '[]'}
-																}
-															});
-													},
-													model.allItems.colaboraciones)),
-											_1: {
+											{
 												ctor: '::',
 												_0: A2(
 													_elm_lang$html$Html$div,
 													{
 														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
+														_0: _elm_lang$html$Html_Attributes$class('list-group col-md-4'),
 														_1: {ctor: '[]'}
 													},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$div,
-															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$p,
-																	{ctor: '[]'},
-																	{
+													A2(
+														_elm_lang$core$List$map,
+														function (denun) {
+															return A2(
+																_elm_lang$html$Html$a,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class(
+																		A2(
+																			_elm_lang$core$Basics_ops['++'],
+																			'list-group-item',
+																			_elm_lang$core$Native_Utils.eq(denuncia.nombre, denun.nombre) ? ' active' : '')),
+																	_1: {
 																		ctor: '::',
-																		_0: _elm_lang$html$Html$text(
-																			A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', colaboracion.usuarioId)),
+																		_0: _elm_lang$html$Html_Events$onClick(
+																			_salvarubiomartinez$mci$Msgs$AdministracionMsg(
+																				_salvarubiomartinez$mci$Msgs$SelectDenuncia(denun))),
 																		_1: {ctor: '[]'}
-																	}),
-																_1: {
+																	}
+																},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$h4,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
+																			_1: {ctor: '[]'}
+																		},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text(denun.nombre),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$p,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
+																				_1: {ctor: '[]'}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(denun.fecha),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																});
+														},
+														model.allItems.denuncias)),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$div,
+																{ctor: '[]'},
+																{
 																	ctor: '::',
 																	_0: A2(
 																		_elm_lang$html$Html$p,
@@ -9614,47 +9411,295 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 																		{
 																			ctor: '::',
 																			_0: _elm_lang$html$Html$text(
-																				A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', colaboracion.info)),
+																				A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', denuncia.nombre)),
 																			_1: {ctor: '[]'}
 																		}),
-																	_1: {ctor: '[]'}
-																}
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$p,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(
+																					A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', denuncia.exposicion)),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class(
+														A2(_elm_lang$core$Basics_ops['++'], 'tab-pane', tabAdhesiones)),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('list-group col-md-4'),
+															_1: {ctor: '[]'}
+														},
+														A2(
+															_elm_lang$core$List$map,
+															function (denuncia) {
+																return A2(
+																	_elm_lang$html$Html$a,
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$class(
+																			A2(
+																				_elm_lang$core$Basics_ops['++'],
+																				'list-group-item',
+																				_elm_lang$core$Native_Utils.eq(adhesion.info, denuncia.info) ? ' active' : '')),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Events$onClick(
+																				_salvarubiomartinez$mci$Msgs$AdministracionMsg(
+																					_salvarubiomartinez$mci$Msgs$SelectAdhesion(denuncia))),
+																			_1: {ctor: '[]'}
+																		}
+																	},
+																	{
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$h4,
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
+																				_1: {ctor: '[]'}
+																			},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(
+																					_elm_lang$core$Basics$toString(denuncia.usuarioId)),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$p,
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
+																					_1: {ctor: '[]'}
+																				},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text(denuncia.info),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}
+																	});
+															},
+															model.allItems.adhesiones)),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$div,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
+																_1: {ctor: '[]'}
+															},
+															{
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$div,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$p,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(
+																					A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', adhesion.usuarioId)),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$p,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text(
+																						A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', adhesion.info)),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {ctor: '[]'}
+																		}
+																	}),
+																_1: {ctor: '[]'}
 															}),
 														_1: {ctor: '[]'}
+													}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$div,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class(
+															A2(_elm_lang$core$Basics_ops['++'], 'tab-pane', tabColaboraciones)),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$div,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('list-group col-md-4'),
+																_1: {ctor: '[]'}
+															},
+															A2(
+																_elm_lang$core$List$map,
+																function (denuncia) {
+																	return A2(
+																		_elm_lang$html$Html$a,
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Attributes$class(
+																				A2(
+																					_elm_lang$core$Basics_ops['++'],
+																					'list-group-item',
+																					_elm_lang$core$Native_Utils.eq(colaboracion.info, denuncia.info) ? ' active' : '')),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html_Events$onClick(
+																					_salvarubiomartinez$mci$Msgs$AdministracionMsg(
+																						_salvarubiomartinez$mci$Msgs$SelectColaboracion(denuncia))),
+																				_1: {ctor: '[]'}
+																			}
+																		},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$h4,
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html_Attributes$class('list-group-item-heading'),
+																					_1: {ctor: '[]'}
+																				},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text(
+																						_elm_lang$core$Basics$toString(denuncia.usuarioId)),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$p,
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$class('list-group-item-text'),
+																						_1: {ctor: '[]'}
+																					},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text(denuncia.info),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}
+																		});
+																},
+																model.allItems.colaboraciones)),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$div,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('col-md-8'),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$div,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$p,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text(
+																						A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', colaboracion.usuarioId)),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$p,
+																					{ctor: '[]'},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text(
+																							A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', colaboracion.info)),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}
+																		}),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}
 													}),
 												_1: {ctor: '[]'}
 											}
-										}),
-									_1: {ctor: '[]'}
-								}
-							}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$hr,
-							{ctor: '[]'},
-							{ctor: '[]'}),
+										}
+									}),
+								_1: {ctor: '[]'}
+							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$button,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
-									_1: {
+								_elm_lang$html$Html$hr,
+								{ctor: '[]'},
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(
-											_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Login)),
+										_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Login)),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Login'),
 										_1: {ctor: '[]'}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Login'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}
