@@ -1,26 +1,39 @@
 <?php
+
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 require './server/vendor/autoload.php';
 
+$users = array(array('email' => 'pepe@yahoo.es', 'psswd' => 'p@ssw0rd'),array('email' => 'juan@gmail.com', 'psswd' => 'p@ssw0rd'),array('email' => 'maria@yahoo.es', 'psswd' => 'p@ssw0rd'));
+
 $app = new \Slim\App;
 
 $app->get('/', function (Request $request, Response $response) {
-    //$response->getBody()->write("rrr");
     $response->getBody()->write(file_get_contents("client/index.html"));
 
     return $response;
 });
 
-$app->get('/api', function (Request $request, Response $response) {
-    $response->getBody()->write("Welcome to MCI Web Api");
-
+$app->post('/login', function (Request $request, Response $response) use ($users){
+    $json = $request->getBody();
+    $login = json_decode($json);
+    $userOk = array_filter($users, function ($item) use ($login) {
+        return ($item['email'] === $login->email && $item['psswd'] === $login->psswd);
+    });
+    //$response->getBody()->write($json);
+//    $response = $response->withJson($userOk);
+    if (sizeof($userOk) > 0){
+        $response->getBody()->write("ok");
+    } else {
+        $response->getBody()->write("fail");
+    }
     return $response;
 });
 
-$app->get('/api/denuncias', function (Request $request, Response $response) {
-    $response->getBody()->write('[
+$app->group('/admin', function () use ($app, $users) {
+    $app->get('/denuncias', function ($request, $response) {
+        $response->getBody()->write('[
     {
       "id": 1,
       "usuarioId": 1,
@@ -50,14 +63,23 @@ $app->get('/api/denuncias', function (Request $request, Response $response) {
       ]
     }
   ]');
+        return $response;
+    });
+    $app->get('/users', function ($request, $response) use ($users) {
+        return $response->withJson($users);
+    });
+})->add(function ($request, $response, $next) {
+    $response = $response->withHeader('Content-type', 'application/json');
+    $response = $next($request, $response);
+
     return $response;
 });
 
-$app->get('/api/{name}', function (Request $request, Response $response) {
-    $name = $request->getAttribute('name');
-    $response->getBody()->write("Hello, $name");
-
-    return $response;
-});
+//$app->get('/api/{name}', function (Request $request, Response $response) {
+//    $name = $request->getAttribute('name');
+//    $response->getBody()->write("Hello, $name");
+//
+//    return $response;
+//});
 
 $app->run();
