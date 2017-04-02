@@ -1,2 +1,2 @@
 <?php
-require '/server/app.php';
+require './server/app.php';
