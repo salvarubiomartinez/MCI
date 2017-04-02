@@ -1,0 +1,15 @@
+{
+    "name": "srubio/server",
+  "require": {
+    "slim/slim": "^3.0"
+  },
+  "config": {
+    
+  } ,
+    "authors": [
+        {
+            "name": "Salvador Rubio",
+            "email": "salvarubiomartinez@gmal.com"
+        }
+    ]
+}
