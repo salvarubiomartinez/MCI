@@ -5,6 +5,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require './server/vendor/autoload.php';
 
+$mysqli = new mysqli('127.0.0.1', 'mci', 'mci', 'mci');
+
 $users = array(array('email' => 'pepe@yahoo.es', 'psswd' => 'p@ssw0rd'),array('email' => 'juan@gmail.com', 'psswd' => 'p@ssw0rd'),array('email' => 'maria@yahoo.es', 'psswd' => 'p@ssw0rd'));
 
 $app = new \Slim\App;
@@ -63,18 +65,28 @@ $app->group('/admin', function () use ($app, $users) {
 });
 
 
-$app->group('/api', function () use ($app){
-    $app->post('/socio', function ($request, $response){
-        
+$app->group('/api', function () use ($app, $mysqli){
+    $app->post('/socio', function ($request, $response) use ($mysqli){
+        $result = $request->getBody();
+        $sql = "INSERT INTO socios (data) VALUES ('$result')";
+        if ($mysqli->query($sql) === TRUE) {
+            $response->getBody()->write($result);
+            //$response->getBody()->write("New record created successfully");
+        } else {
+             $response->getBody()->write("Error: " . $sql . "<br>" . $mysqli->error);
+        }
+
+        $mysqli->close();
         return $response;
     });
-        $app->post('/adhesionManifiesto', function ($request, $response){
+    $app->post('/adhesionManifiesto', function ($request, $response){
+            $response->getBody()->write("Error:");
         return $response;
     });
-        $app->post('/denuncia', function ($request, $response){
+    $app->post('/denuncia', function ($request, $response){
         return $response;
     });
-        $app->post('/donacion', function ($request, $response){
+    $app->post('/donacion', function ($request, $response){
         return $response;
     });
 });

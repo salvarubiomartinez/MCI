@@ -9,7 +9,7 @@ type alias Usuario = {id : Int, nombre : String, dni :String}
 type alias Denuncia = {id: Int, usuarioId : Int, fecha : String, nombre: String, exposicion : String} --, comentarios : List Comentario}
 --type alias Comentario = {autor: String, hora : String, contenido : String}
 type alias AdhesionManifiesto = {id: Int, usuarioId: Int, info : String}
-type alias Colaboracion = {id: Int, usuarioId: Int, info : String}
+type alias Colaboracion = {usuarioId: Int, info : String}
 type TabSelection = TabDenuncias | TabAdhesiones | TabColaboraciones
 
 type alias Model = {usuario: Maybe Usuario,
@@ -47,9 +47,8 @@ adhesionManifiestoDecoder = Json.map3
     (Json.field "usuarioId" Json.int)
     (Json.field "info" Json.string)
 
-colaboracionDecoder = Json.map3
+colaboracionDecoder = Json.map2
   Colaboracion
-    (Json.field "id" Json.int)
     (Json.field "usuarioId" Json.int)
     (Json.field "info" Json.string)
 

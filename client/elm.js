@@ -9077,14 +9077,13 @@ var _salvarubiomartinez$mci$Models$adhesionManifiestoDecoder = A4(
 	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'info', _elm_lang$core$Json_Decode$string));
-var _salvarubiomartinez$mci$Models$Colaboracion = F3(
-	function (a, b, c) {
-		return {id: a, usuarioId: b, info: c};
+var _salvarubiomartinez$mci$Models$Colaboracion = F2(
+	function (a, b) {
+		return {usuarioId: a, info: b};
 	});
-var _salvarubiomartinez$mci$Models$colaboracionDecoder = A4(
-	_elm_lang$core$Json_Decode$map3,
+var _salvarubiomartinez$mci$Models$colaboracionDecoder = A3(
+	_elm_lang$core$Json_Decode$map2,
 	_salvarubiomartinez$mci$Models$Colaboracion,
-	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'info', _elm_lang$core$Json_Decode$string));
 var _salvarubiomartinez$mci$Models$Model = F9(
@@ -9874,7 +9873,7 @@ var _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionView = function
 	var colaboracion = function () {
 		var _p0 = model.colaboracion;
 		if (_p0.ctor === 'Nothing') {
-			return A3(_salvarubiomartinez$mci$Models$Colaboracion, 1, 1, '');
+			return A2(_salvarubiomartinez$mci$Models$Colaboracion, 1, '');
 		} else {
 			return _p0._0;
 		}
@@ -10013,7 +10012,7 @@ var _salvarubiomartinez$mci$EnviarColaboracion$postColaboracion = function (cola
 		},
 		A3(
 			_elm_lang$http$Http$post,
-			'http://localhost:3000/colaboracion',
+			'http://localhost/mci/api/socio',
 			_elm_lang$http$Http$jsonBody(
 				_salvarubiomartinez$mci$EnviarColaboracion$encodeColaboracion(colaboracion)),
 			_salvarubiomartinez$mci$Models$colaboracionDecoder));
@@ -10029,7 +10028,7 @@ var _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionUpdate = F2(
 						model,
 						{
 							colaboracion: _elm_lang$core$Maybe$Just(
-								A3(_salvarubiomartinez$mci$Models$Colaboracion, 1, 1, _p1._0))
+								A2(_salvarubiomartinez$mci$Models$Colaboracion, 1, _p1._0))
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};

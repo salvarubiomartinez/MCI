@@ -13,7 +13,7 @@ import Json.Encode as Encode
 enviarColaboracionUpdate msg model =
     case msg of
         UpdateColaboracion info ->
-            ({model | colaboracion = Just (Colaboracion 1 1 info)}, Cmd.none)
+            ({model | colaboracion = Just (Colaboracion 1 info)}, Cmd.none)
         PostColaboracion colaboracion ->
             case colaboracion of
                 Nothing -> (model, Cmd.none)
@@ -25,7 +25,7 @@ enviarColaboracionUpdate msg model =
 
 postColaboracion : Colaboracion -> Cmd Msg
 postColaboracion colaboracion = Http.send (\a -> EnviarColaboracionMsg (PostColaboracionResponse a)) 
-  <| Http.post "http://localhost:3000/colaboracion" (Http.jsonBody (encodeColaboracion colaboracion)) colaboracionDecoder
+  <| Http.post "http://localhost/mci/api/socio" (Http.jsonBody (encodeColaboracion colaboracion)) colaboracionDecoder
 
 encodeColaboracion : Colaboracion -> Encode.Value
 encodeColaboracion colaboracion = 
@@ -37,7 +37,7 @@ encodeColaboracion colaboracion =
 enviarColaboracionView model = 
     let 
         colaboracion = case model.colaboracion of
-            Nothing -> Colaboracion 1 1 ""
+            Nothing -> Colaboracion 1 ""
             Just colab -> colab
     in
     div [][
