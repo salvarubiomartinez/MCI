@@ -29,8 +29,8 @@ $app->post('/login', function (Request $request, Response $response) use ($users
     //$response->getBody()->write($json);
 //    $response = $response->withJson($userOk);
     if (sizeof($userOk) > 0){
-        //var_dump($userOk);
-        $token = crypt($login->email, md5(array_values($userOk)[0]['psswd']));
+        var_dump(hash("sha256",'$5$rounds=5000$anexamplestringforsalt$'));
+        $token = crypt($login->email, hash("sha256",'$5$rounds=5000$anexamplestringforsalt$'));
         $response->getBody()->write($token);
     } else {
         $response->getBody()->write("fail");
