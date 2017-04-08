@@ -54,3 +54,15 @@ function getEntities($entityName){
         return $response;
     });
 }
+
+function insertEntity($entityName, $value){
+    return db(function ($mysqli) use ($entityName, $value){
+        $sql = "INSERT INTO $entityName (data) VALUES ('$value')";
+        if ($mysqli->query($sql) === TRUE) {
+            $response = $value;
+        } else {
+             $response = "Error: " . $sql . "<br>" . $mysqli->error;
+        } 
+        return $response;
+    });
+}

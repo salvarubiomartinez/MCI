@@ -16,13 +16,25 @@ $users = array(array('email' => 'pepe@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOzt
 
 $app = new \Slim\App;
 
+function verifyToken($request, $key) {   
+    if ($request->hasHeader('User') && $request->hasHeader('Token')) {
+           if (count($request->getHeader('User')) > 0 && count($request->getHeader('Token')) > 0) {              
+             $user = implode ($request->getHeader('User'),'');
+             $oldToken = crypt($user, hash("sha256", $key));
+             $token =implode ($request->getHeader('Token'),'');
+             return $token == $oldToken;
+            }
+    }
+    return false;
+}
+
 $app->get('/', function (Request $request, Response $response) {
     $response->getBody()->write(file_get_contents("client/index.html"));
 
     return $response;
 });
 
-$app->post('/login', function (Request $request, Response $response) {
+$app->post('/login', function (Request $request, Response $response) use ($key) {
     $json = $request->getBody();
     $login = json_decode($json);
     $password = getPassword($login->email);
@@ -55,10 +67,10 @@ $app->post('/register', function (Request $request, Response $response) use ($my
     return $response;
 });
 
-$app->group('/admin', function () use ($app, $users) {
-    $app->get('/socio', function ($request, $response) {
-        $resultado = getEntities("socios");
-        $response->getBody()->write($resultado);
+$app->group('/admin', function () use ($app, $users, $key) {
+    $app->get('/socio', function ($request, $response) use ($key) {
+            $resultado = getEntities("socios");
+            $response->getBody()->write($resultado);
         return $response;
     });
     $app->get('/adhesionManifiesto', function ($request, $response) {
@@ -81,52 +93,50 @@ $app->group('/admin', function () use ($app, $users) {
         $response->getBody()->write($resultado);
         return $response;
     });
-})->add(function ($request, $response, $next) use ($key) {
-    $user = implode ($request->getHeader('User'),'');
-    //var_dump($user);
-    $token = $request->getHeader('Token')[0];
-    //var_dump($token);
-    $validToken = $token === crypt($user, hash("sha256", $key));
-    if ($validToken){
-        $response = $response->withHeader('Content-type', 'application/json');
-        $response = $next($request, $response);
-    } else {
-        //$response = $next($request, $response);
-    }
+})->add(function ($request, $response, $next) use ($key){
+    $response = $response->withHeader('Content-type', 'application/json');
+        if (verifyToken($request, $key)){
+           $response = $next($request, $response);
+        } else {
+            $response->getBody()->write("no autorizado");
+        }
     return $response;
 });
 
 
 $app->group('/api', function () use ($app, $mysqli){
     $app->post('/socio', function ($request, $response) use ($mysqli){
-        $result = $request->getBody();
-        $sql = "INSERT INTO socios (data) VALUES ('$result')";
-        if ($mysqli->query($sql) === TRUE) {
-            $response->getBody()->write($result);
-            //$response->getBody()->write("New record created successfully");
-        } else {
-             $response->getBody()->write("Error: " . $sql . "<br>" . $mysqli->error);
-        }
-
-        $mysqli->close();
+        $value = $request->getBody();
+        $result = insertEntity("socios", $value);
+        $response->getBody()->write($result);
         return $response;
     });
     $app->post('/adhesionManifiesto', function ($request, $response){
-            $response->getBody()->write("Error:");
+        $value = $request->getBody();
+        $result = insertEntity("adhesionesmanifiesto", $value);
+        $response->getBody()->write($result);
         return $response;
     });
     $app->post('/denuncia', function ($request, $response){
+        $value = $request->getBody();
+        $result = insertEntity("denuncias", $value);
+        $response->getBody()->write($result);
         return $response;
     });
     $app->post('/donacion', function ($request, $response){
+        $value = $request->getBody();
+        $result = insertEntity("donaciones", $value);
+        $response->getBody()->write($result);
         return $response;
     });
+})->add(function ($request, $response, $next) use ($key){
+    $response = $response->withHeader('Content-type', 'application/json');
+        if (verifyToken($request, $key)){
+           $response = $next($request, $response);
+        } else {
+            $response->getBody()->write("no autorizado");
+        }
+    return $response;
 });
-//$app->get('/api/{name}', function (Request $request, Response $response) {
-//    $name = $request->getAttribute('name');
-//    $response->getBody()->write("Hello, $name");
-//
-//    return $response;
-//});
 
 $app->run();
