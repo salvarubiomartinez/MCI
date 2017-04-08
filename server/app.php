@@ -5,24 +5,24 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require './server/vendor/autoload.php';
 require './server/db.php';
-//sha1(value);
-//crypt(value, key);
+require './server/mail.php';
+include('setting.php');
 
-$key = '$5$rounds=5000$anexamplestringforsalt$';
+//$key = '$5$rounds=5000$anexamplestringforsalt$';
 
-$mysqli = new mysqli('127.0.0.1', 'mci', 'mci', 'mci');
+//$mysqli = new mysqli('127.0.0.1', 'mci', 'mci', 'mci');
 
-$users = array(array('email' => 'pepe@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'juan@gmail.com', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'maria@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'));
+//$users = array(array('email' => 'pepe@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'juan@gmail.com', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'maria@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'));
 
 $app = new \Slim\App;
 
-function verifyToken($request, $key) {   
+function verifyToken($request) {   
     if ($request->hasHeader('User') && $request->hasHeader('Token')) {
            if (count($request->getHeader('User')) > 0 && count($request->getHeader('Token')) > 0) {              
              $user = implode ($request->getHeader('User'),'');
-             $oldToken = crypt($user, hash("sha256", $key));
+             //$oldToken = crypt($user, hash("sha256", $key));
              $token =implode ($request->getHeader('Token'),'');
-             return $token == $oldToken;
+             return password_verify($user, $token);//$token == $oldToken;
             }
     }
     return false;
@@ -34,14 +34,14 @@ $app->get('/', function (Request $request, Response $response) {
     return $response;
 });
 
-$app->post('/login', function (Request $request, Response $response) use ($key) {
+$app->post('/login', function (Request $request, Response $response)  {
     $json = $request->getBody();
     $login = json_decode($json);
     $password = getPassword($login->email);
     
     if (!is_null($password)){
         if (password_verify($login->psswd, $password)){
-            $token = crypt($login->email, hash("sha256",$key));
+            $token = password_hash($login->email, PASSWORD_DEFAULT); // crypt($login->email, hash("sha256",$key));
             $response->getBody()->write($token);
         } else {
             $response->getBody()->write("incorrect password");
@@ -52,23 +52,38 @@ $app->post('/login', function (Request $request, Response $response) use ($key) 
     return $response;
 });
 
-$app->post('/register', function (Request $request, Response $response) use ($mysqli){
+$app->post('/register', function (Request $request, Response $response) {
     $json = $request->getBody();
     $login = json_decode($json);
-    $result = createUsers($login->email, $login->psswd);
+    $email = $login->email;
+    $result = createUsers($email, $login->psswd);
     
     if ($result === TRUE){
-            $response->getBody()->write($hashed_password);
+            $verifyToken = crypt($email, KEY);
+            $link = "http://localhost/mci/mailVerification?mail=$email&token=$verifyToken";
+            sendMail($email, $link);
+            $response->getBody()->write("Hemos enviado un correo a $email. Por favor, accede al link para activar tu cuenta.");
     } else {
             $response->getBody()->write("error");
     }    
-
-
     return $response;
 });
 
-$app->group('/admin', function () use ($app, $users, $key) {
-    $app->get('/socio', function ($request, $response) use ($key) {
+$app->get('/mailVerification', function (Request $request, Response $response)  {
+    $mail = $request->getParam('mail');
+    $token = $request->getParam('token');
+    $verifyToken = crypt($mail, KEY);
+    if ($verifyToken == $token){
+        $result = enableUser($mail);
+        $response->getBody()->write($result);
+    } else {
+         $response->getBody()->write("error");
+    }
+    return $response;
+});
+
+$app->group('/admin', function () use ($app) {
+    $app->get('/socio', function ($request, $response) {
             $resultado = getEntities("socios");
             $response->getBody()->write($resultado);
         return $response;
@@ -88,14 +103,14 @@ $app->group('/admin', function () use ($app, $users, $key) {
         $response->getBody()->write($resultado);
         return $response;
     });
-    $app->get('/users', function ($request, $response) use ($users) {
+    $app->get('/users', function ($request, $response) {
         $resultado = "";
         $response->getBody()->write($resultado);
         return $response;
     });
-})->add(function ($request, $response, $next) use ($key){
+})->add(function ($request, $response, $next) {
     $response = $response->withHeader('Content-type', 'application/json');
-        if (verifyToken($request, $key)){
+        if (verifyToken($request)){
            $response = $next($request, $response);
         } else {
             $response->getBody()->write("no autorizado");
@@ -104,8 +119,8 @@ $app->group('/admin', function () use ($app, $users, $key) {
 });
 
 
-$app->group('/api', function () use ($app, $mysqli){
-    $app->post('/socio', function ($request, $response) use ($mysqli){
+$app->group('/api', function () use ($app) {
+    $app->post('/socio', function ($request, $response){
         $value = $request->getBody();
         $result = insertEntity("socios", $value);
         $response->getBody()->write($result);
@@ -129,14 +144,16 @@ $app->group('/api', function () use ($app, $mysqli){
         $response->getBody()->write($result);
         return $response;
     });
-})->add(function ($request, $response, $next) use ($key){
+})->add(function ($request, $response, $next) {
     $response = $response->withHeader('Content-type', 'application/json');
-        if (verifyToken($request, $key)){
+        if (verifyToken($request)){
            $response = $next($request, $response);
         } else {
             $response->getBody()->write("no autorizado");
         }
     return $response;
 });
+
+
 
 $app->run();

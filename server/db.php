@@ -1,11 +1,10 @@
 <?php
 
-
 function db ($fn){
-    $hostname = 'localhost';
-    $database = 'mci';
-    $username = 'mci';
-    $password = 'mci';
+    $hostname = hostname;
+    $database = database;
+    $username = username;
+    $password = password;
 
     $mysqli = new mysqli($hostname, $username,$password, $database);
     if ($mysqli -> connect_errno) {
@@ -60,6 +59,18 @@ function insertEntity($entityName, $value){
         $sql = "INSERT INTO $entityName (data) VALUES ('$value')";
         if ($mysqli->query($sql) === TRUE) {
             $response = $value;
+        } else {
+             $response = "Error: " . $sql . "<br>" . $mysqli->error;
+        } 
+        return $response;
+    });
+}
+
+function enableUser($mail){
+    return db(function ($mysqli) use ($mail){
+        $sql = "UPDATE users SET locked = 1 WHERE email = '$mail'";
+        if ($mysqli->query($sql) === TRUE) {
+            $response = "usuario activado";
         } else {
              $response = "Error: " . $sql . "<br>" . $mysqli->error;
         } 

@@ -61,22 +61,6 @@ CREATE TABLE `socios` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `socios`
---
-
-INSERT INTO `socios` (`data`) VALUES
-('{"hooa": "deded"}'),
-('{"info": "frfrfrfrfrf", "usuarioId": 1}'),
-('{"info": "hola", "usuarioId": 1}'),
-('{"info": "hola", "usuarioId": 1}'),
-('{"hooa": "deded"}'),
-('{"info": "eeee", "usuarioId": 1}'),
-('{"info": "esta es mi colaboracion", "usuarioId": 1}'),
-('{"ddd": "fff"}');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `users`
 --
 
@@ -87,18 +71,7 @@ CREATE TABLE `users` (
   `locked` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `users`
---
 
-INSERT INTO `users` (`id`, `email`, `password`, `locked`) VALUES
-(1, 'maria@yahoo.es', '$2y$10$CWbzk9zdZijbzNOkI4SmuOBTdC3nH4.muMlA/v9PTe41qDXv.sK4C', 0),
-(2, 'pepe@yahoo.es', '$2y$10$gW73oscXI9zsB.DDIFca1uK9MVd5Y.DgqXflZ6Kefnsi8nQj.Rwom', 0),
-(3, 'pepe1@yahoo.es', '$2y$10$Z1nLCEFh2oxJAZ6nPES1q.Vd3FoUsGOn5Ka0clGyDghkQTjE0JHV6', 0),
-(4, 'jaime@yahoo.es', '$2y$10$udvM9S0u97Yx6XBuGvJLEeT9qc4RzAR5bLAUPIKZlF//OZUFkJHWm', 0);
-
---
--- Índices para tablas volcadas
 --
 
 --
