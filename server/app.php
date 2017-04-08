@@ -4,13 +4,15 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 require './server/vendor/autoload.php';
-
+require './server/db.php';
 //sha1(value);
 //crypt(value, key);
 
+$key = '$5$rounds=5000$anexamplestringforsalt$';
+
 $mysqli = new mysqli('127.0.0.1', 'mci', 'mci', 'mci');
 
-//$users = array(array('email' => 'pepe@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'juan@gmail.com', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'maria@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'));
+$users = array(array('email' => 'pepe@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'juan@gmail.com', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'maria@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'));
 
 $app = new \Slim\App;
 
@@ -20,28 +22,18 @@ $app->get('/', function (Request $request, Response $response) {
     return $response;
 });
 
-$app->post('/login', function (Request $request, Response $response) use ($mysqli){
+$app->post('/login', function (Request $request, Response $response) {
     $json = $request->getBody();
     $login = json_decode($json);
-
-    $stmt = $mysqli->prepare("SELECT password FROm users WHERE email = ?");
-    $stmt->bind_param("s", $login->email);
-    $userOk = $stmt->execute();
-    $stmt->bind_result($password);
-    $stmt->fetch();
-
-    $stmt->close();
-    $mysqli->close();
-
+    $password = getPassword($login->email);
+    
     if (!is_null($password)){
-        var_dump(hash("sha256",'$5$rounds=5000$anexamplestringforsalt$'));
         if (password_verify($login->psswd, $password)){
-            $token = crypt($login->email, hash("sha256",'$5$rounds=5000$anexamplestringforsalt$'));
+            $token = crypt($login->email, hash("sha256",$key));
             $response->getBody()->write($token);
         } else {
             $response->getBody()->write("incorrect password");
         }
-
     } else {
         $response->getBody()->write("user not found");
     }
@@ -51,45 +43,56 @@ $app->post('/login', function (Request $request, Response $response) use ($mysql
 $app->post('/register', function (Request $request, Response $response) use ($mysqli){
     $json = $request->getBody();
     $login = json_decode($json);
-    $hashed_password = password_hash($login->psswd, PASSWORD_DEFAULT);
-
-    $stmt = $mysqli->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-    $stmt->bind_param("ss", $login->email, $hashed_password);    
-    if ($stmt->execute()===TRUE){
+    $result = createUsers($login->email, $login->psswd);
+    
+    if ($result === TRUE){
             $response->getBody()->write($hashed_password);
     } else {
             $response->getBody()->write("error");
     }    
-    var_dump($hashed_password);
-    $stmt->close();
-    $mysqli->close();
+
+
     return $response;
 });
 
 $app->group('/admin', function () use ($app, $users) {
     $app->get('/socio', function ($request, $response) {
-        $response->getBody()->write('[]');
+        $resultado = getEntities("socios");
+        $response->getBody()->write($resultado);
         return $response;
     });
     $app->get('/adhesionManifiesto', function ($request, $response) {
-        $response->getBody()->write('[]');
+        $resultado = getEntities("adhesionesmanifiesto");
+        $response->getBody()->write($resultado);
         return $response;
     });
     $app->get('/denuncia', function ($request, $response) {
-        $response->getBody()->write('[]');
+        $resultado = getEntities("denuncias");
+        $response->getBody()->write($resultado);
         return $response;
     });
     $app->get('/donacion', function ($request, $response) {
-        $response->getBody()->write('[]');
+        $resultado = getEntities("donaciones");
+        $response->getBody()->write($resultado);
         return $response;
     });
     $app->get('/users', function ($request, $response) use ($users) {
-        return $response->withJson($users);
+        $resultado = "";
+        $response->getBody()->write($resultado);
+        return $response;
     });
-})->add(function ($request, $response, $next) {
-    $response = $response->withHeader('Content-type', 'application/json');
-    $response = $next($request, $response);
-
+})->add(function ($request, $response, $next) use ($key) {
+    $user = implode ($request->getHeader('User'),'');
+    //var_dump($user);
+    $token = $request->getHeader('Token')[0];
+    //var_dump($token);
+    $validToken = $token === crypt($user, hash("sha256", $key));
+    if ($validToken){
+        $response = $response->withHeader('Content-type', 'application/json');
+        $response = $next($request, $response);
+    } else {
+        //$response = $next($request, $response);
+    }
     return $response;
 });
 
