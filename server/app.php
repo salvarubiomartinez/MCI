@@ -8,21 +8,14 @@ require './server/db.php';
 require './server/mail.php';
 include('setting.php');
 
-//$key = '$5$rounds=5000$anexamplestringforsalt$';
-
-//$mysqli = new mysqli('127.0.0.1', 'mci', 'mci', 'mci');
-
-//$users = array(array('email' => 'pepe@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'juan@gmail.com', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'),array('email' => 'maria@yahoo.es', 'psswd' => '$2y$10$.4O1NR9FSOztr52bLw7aC.inKjVi0uLZ6SSTSYLELuAJmcerF4B7W'));
-
 $app = new \Slim\App;
 
 function verifyToken($request) {   
     if ($request->hasHeader('User') && $request->hasHeader('Token')) {
            if (count($request->getHeader('User')) > 0 && count($request->getHeader('Token')) > 0) {              
              $user = implode ($request->getHeader('User'),'');
-             //$oldToken = crypt($user, hash("sha256", $key));
              $token =implode ($request->getHeader('Token'),'');
-             return password_verify($user, $token);//$token == $oldToken;
+             return password_verify($user, $token);
             }
     }
     return false;
@@ -41,7 +34,7 @@ $app->post('/login', function (Request $request, Response $response)  {
     
     if (!is_null($password)){
         if (password_verify($login->psswd, $password)){
-            $token = password_hash($login->email, PASSWORD_DEFAULT); // crypt($login->email, hash("sha256",$key));
+            $token = password_hash($login->email, PASSWORD_DEFAULT); 
             $response->getBody()->write($token);
         } else {
             $response->getBody()->write("incorrect password");
