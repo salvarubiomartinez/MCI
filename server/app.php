@@ -6,7 +6,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 require './server/vendor/autoload.php';
 require './server/db.php';
 require './server/mail.php';
-include('setting.php');
+include('settings.php');
 
 $app = new \Slim\App;
 
@@ -147,6 +147,18 @@ $app->group('/api', function () use ($app) {
     return $response;
 });
 
+//allow cors
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
+});
+
+$app->add(function ($req, $res, $next) {
+    $response = $next($req, $res);
+    return $response
+            ->withHeader('Access-Control-Allow-Origin', 'http://mysite')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+});
 
 
 $app->run();
