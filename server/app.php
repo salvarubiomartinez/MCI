@@ -54,10 +54,15 @@ $app->post('/register', function (Request $request, Response $response) {
     if ($result === TRUE){
             $verifyToken = crypt($email, KEY);
             $link = baseUrl."/mailVerification?mail=$email&token=$verifyToken";
-            sendMail($email, $link);
-            $response->getBody()->write("Hemos enviado un correo a $email. Por favor, accede al link para activar tu cuenta.");
+            $sendMailOk = sendMail($email, $link);
+            if ($sendMailOk){
+                 $response->getBody()->write("Hemos enviado un correo a $email. Por favor, accede al link para activar tu cuenta.");
+            } else {
+                $response->getBody()->write("error al enviar el mail");
+            }
+           
     } else {
-            $response->getBody()->write("error");
+            $response->getBody()->write("error al conectar la base de datos");
     }    
     return $response;
 });
