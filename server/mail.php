@@ -4,7 +4,7 @@ require './server/vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 
 function sendMail($user, $link){
      $mail = new PHPMailer;
-    $mail->isSMTP();                               
+    $mail->isSendMail();    //For 1and1 hosting smtp disable                           
     $mail->Host = mailHost;  
     $mail->SMTPAuth = true;                              
     $mail->Username = mailUsername;                
