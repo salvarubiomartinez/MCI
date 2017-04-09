@@ -53,7 +53,7 @@ $app->post('/register', function (Request $request, Response $response) {
     
     if ($result === TRUE){
             $verifyToken = crypt($email, KEY);
-            $link = "http://localhost/mci/mailVerification?mail=$email&token=$verifyToken";
+            $link = baseUrl."/mailVerification?mail=$email&token=$verifyToken";
             sendMail($email, $link);
             $response->getBody()->write("Hemos enviado un correo a $email. Por favor, accede al link para activar tu cuenta.");
     } else {
