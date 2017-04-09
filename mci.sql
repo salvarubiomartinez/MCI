@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-04-2017 a las 09:08:48
+-- Tiempo de generación: 09-04-2017 a las 12:17:24
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `adhesionesmanifiesto` (
-  `data` json NOT NULL
+  `data` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -37,28 +37,29 @@ CREATE TABLE `adhesionesmanifiesto` (
 --
 
 CREATE TABLE `denuncias` (
-  `data` json NOT NULL
+  `data` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+ --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `donaciones`
 --
 
 CREATE TABLE `donaciones` (
-  `data` json NOT NULL
+  `data` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `socios`
 --
 
 CREATE TABLE `socios` (
-  `data` json NOT NULL
+  `data` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `users`
@@ -71,7 +72,8 @@ CREATE TABLE `users` (
   `locked` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-
+--
+-- Índices para tablas volcadas
 --
 
 --
@@ -89,7 +91,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
