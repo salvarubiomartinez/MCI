@@ -37,10 +37,10 @@ $app->post('/login', function (Request $request, Response $response)  {
             $token = password_hash($login->email, PASSWORD_DEFAULT); 
             $response->getBody()->write($token);
         } else {
-            $response->getBody()->write("incorrect password");
+            return $response->withStatus(401);// ->getBody()->write("incorrect password");
         }
     } else {
-        $response->getBody()->write("user not found");
+        return $response->withStatus(404);//$response->getBody()->write("user not found");
     }
     return $response;
 });
