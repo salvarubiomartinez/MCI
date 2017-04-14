@@ -19,7 +19,7 @@ loginUpdate msg model =
                 SubmitLogin login ->
                     (model, loginSend login)
                 GetLogin (Ok token) ->
-                    ({ model | error = Just token}, Cmd.none)
+                    ({ model | token = Just token, route = Index, error = Nothing }, Cmd.none)
                 GetLogin (Err error) ->
                     ({ model | error = Just (toString error)}, Cmd.none)
 
@@ -29,7 +29,7 @@ loginPost login =
   Http.request
     { method = "POST"
     , headers = [Http.header "Content-Type" "application/json"]
-    , url = apiUrl
+    , url = apiUrl ++ "/login"
     , body = jsonBody (Encode.object
       [ ("email", Encode.string login.email)
       , ("psswd", Encode.string login.psw)

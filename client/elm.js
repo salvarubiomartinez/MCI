@@ -9086,10 +9086,27 @@ var _salvarubiomartinez$mci$Models$colaboracionDecoder = A3(
 	_salvarubiomartinez$mci$Models$Colaboracion,
 	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'info', _elm_lang$core$Json_Decode$string));
-var _salvarubiomartinez$mci$Models$Model = F9(
-	function (a, b, c, d, e, f, g, h, i) {
-		return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, selectedTab: h, error: i};
-	});
+var _salvarubiomartinez$mci$Models$Model = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, selectedTab: h, error: i, token: j};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
 var _salvarubiomartinez$mci$Models$TabColaboraciones = {ctor: 'TabColaboraciones'};
 var _salvarubiomartinez$mci$Models$TabAdhesiones = {ctor: 'TabAdhesiones'};
 var _salvarubiomartinez$mci$Models$TabDenuncias = {ctor: 'TabDenuncias'};
@@ -10292,7 +10309,7 @@ var _salvarubiomartinez$mci$Index$indexUpdate = F2(
 		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 	});
 
-var _salvarubiomartinez$mci$Settings$apiUrl = 'http://localhost/mci/login';
+var _salvarubiomartinez$mci$Settings$apiUrl = 'http://localhost/mci';
 
 var _salvarubiomartinez$mci$Login$loginView = function (login) {
 	return A2(
@@ -10512,7 +10529,7 @@ var _salvarubiomartinez$mci$Login$loginPost = function (login) {
 				_0: A2(_elm_lang$http$Http$header, 'Content-Type', 'application/json'),
 				_1: {ctor: '[]'}
 			},
-			url: _salvarubiomartinez$mci$Settings$apiUrl,
+			url: A2(_elm_lang$core$Basics_ops['++'], _salvarubiomartinez$mci$Settings$apiUrl, '/login'),
 			body: _elm_lang$http$Http$jsonBody(
 				_elm_lang$core$Json_Encode$object(
 					{
@@ -10583,7 +10600,9 @@ var _salvarubiomartinez$mci$Login$loginUpdate = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								error: _elm_lang$core$Maybe$Just(_p0._0._0)
+								token: _elm_lang$core$Maybe$Just(_p0._0._0),
+								route: _salvarubiomartinez$mci$Routing$Index,
+								error: _elm_lang$core$Maybe$Nothing
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -10769,7 +10788,8 @@ var _salvarubiomartinez$mci$Main$init = {
 		adhesion: _elm_lang$core$Maybe$Nothing,
 		colaboracion: _elm_lang$core$Maybe$Nothing,
 		selectedTab: _salvarubiomartinez$mci$Models$TabDenuncias,
-		error: _elm_lang$core$Maybe$Nothing
+		error: _elm_lang$core$Maybe$Nothing,
+		token: _elm_lang$core$Maybe$Nothing
 	},
 	_1: _elm_lang$core$Platform_Cmd$none
 };

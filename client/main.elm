@@ -32,7 +32,8 @@ init = ({usuario = Nothing,
             adhesion = Nothing,
             colaboracion = Nothing,
             selectedTab = TabDenuncias,
-            error = Nothing}, 
+            error = Nothing, 
+            token = Nothing}, 
         Cmd.none)
 
 --updateRoute route = 

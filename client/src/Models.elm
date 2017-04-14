@@ -11,6 +11,7 @@ type alias Denuncia = {id: Int, usuarioId : Int, fecha : String, nombre: String,
 type alias AdhesionManifiesto = {id: Int, usuarioId: Int, info : String}
 type alias Colaboracion = {usuarioId: Int, info : String}
 type TabSelection = TabDenuncias | TabAdhesiones | TabColaboraciones
+type alias Token = Maybe String
 
 type alias Model = {usuario: Maybe Usuario,
                     login: LoginUser,
@@ -20,7 +21,8 @@ type alias Model = {usuario: Maybe Usuario,
                     adhesion : Maybe AdhesionManifiesto,
                     colaboracion : Maybe Colaboracion,
                     selectedTab : TabSelection,
-                    error : Maybe String}
+                    error : Maybe String, 
+                    token: Token}
 
 --Decoders
 usuarioDecoder: Json.Decoder Usuario
