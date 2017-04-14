@@ -19,7 +19,7 @@ loginUpdate msg model =
                 SubmitLogin login ->
                     (model, loginSend login)
                 GetLogin (Ok token) ->
-                    ({ model | token = Just token, route = Index, error = Nothing }, Cmd.none)
+                    ({ model | usuario = Just (Usuario model.login.email token), route = Index, error = Nothing }, Cmd.none)
                 GetLogin (Err error) ->
                     ({ model | error = Just (toString error)}, Cmd.none)
 
@@ -60,7 +60,7 @@ loginView login = div [][
              button [class "btn btn-default", onClick ( LoginMsg (SubmitLogin login) )][text "entrar"]
             ],
         div [class "form-group"][
-             button [class "btn btn-default", onClick (UpdateRoute Index)][text "reggistrarse"]
+             button [class "btn btn-default", onClick (UpdateRoute Registro)][text "registrarse"]
             ]
         ]
     ]

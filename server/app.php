@@ -11,12 +11,12 @@ include('settings.php');
 $app = new \Slim\App;
 
 function verifyToken($request) {   
-    if ($request->hasHeader('User') && $request->hasHeader('Token')) {
-           if (count($request->getHeader('User')) > 0 && count($request->getHeader('Token')) > 0) {              
-             $user = implode ($request->getHeader('User'),'');
-             $token =implode ($request->getHeader('Token'),'');
-             return password_verify($user, $token);
-            }
+    if ($request->hasHeader('Authorization')) {            
+            $authorization = $request->getHeaderLine('Authorization');
+            $tokenArray = explode(", ",$authorization);
+            $user = $tokenArray[0];
+            $token = $tokenArray[1];
+            return password_verify($user, $token);
     }
     return false;
 }
@@ -147,7 +147,7 @@ $app->group('/api', function () use ($app) {
         if (verifyToken($request)){
            $response = $next($request, $response);
         } else {
-            $response->getBody()->write("no autorizado");
+            return $response->withStatus(401);
         }
     return $response;
 });

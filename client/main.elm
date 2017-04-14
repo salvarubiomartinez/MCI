@@ -3,6 +3,7 @@ import Html.Attributes exposing (..)
 import Models exposing (..)
 import Routing exposing (Routing(..))
 import Login exposing (..)
+import Register exposing (..)
 import Administracion exposing (..)
 import Index exposing(..)
 import EnviarColaboracion exposing (..)
@@ -33,7 +34,8 @@ init = ({usuario = Nothing,
             colaboracion = Nothing,
             selectedTab = TabDenuncias,
             error = Nothing, 
-            token = Nothing}, 
+            token = Nothing, 
+            register = Register "" "" ""}, 
         Cmd.none)
 
 --updateRoute route = 
@@ -43,6 +45,8 @@ update msg model =
                     updateRoute route model
                 LoginMsg action ->
                     loginUpdate action model
+                RegisterMsg action ->
+                    registerUpdate action model
                 AdministracionMsg action ->
                     administracionUpdate action model
                 EnviarColaboracionMsg action ->
@@ -70,10 +74,14 @@ view model =
             div [class "panel panel-warning"][
                 div [class "panel-body"][text (error ++ "route: " ++ toString (model.route))]
             ],
+            (case model.usuario of 
+                Nothing -> p [][]
+                Just user -> p [][text ("usuario: " ++ user.email )])
+            ,
             (
                 case model.route of      
                     Login -> loginView model.login
-                    Registro -> div [][]
+                    Registro -> registerView model.register
                     Index -> indexView model                  
                     EnviarColaboracion -> enviarColaboracionView model 
                     EnviarDenuncia -> enviarDenunciaView model 

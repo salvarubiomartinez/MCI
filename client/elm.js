@@ -9045,16 +9045,10 @@ var _salvarubiomartinez$mci$Models$LoginUser = F2(
 	function (a, b) {
 		return {email: a, psw: b};
 	});
-var _salvarubiomartinez$mci$Models$Usuario = F3(
-	function (a, b, c) {
-		return {id: a, nombre: b, dni: c};
+var _salvarubiomartinez$mci$Models$Usuario = F2(
+	function (a, b) {
+		return {email: a, token: b};
 	});
-var _salvarubiomartinez$mci$Models$usuarioDecoder = A4(
-	_elm_lang$core$Json_Decode$map3,
-	_salvarubiomartinez$mci$Models$Usuario,
-	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'nombre', _elm_lang$core$Json_Decode$string),
-	A2(_elm_lang$core$Json_Decode$field, 'dni', _elm_lang$core$Json_Decode$string));
 var _salvarubiomartinez$mci$Models$Denuncia = F5(
 	function (a, b, c, d, e) {
 		return {id: a, usuarioId: b, fecha: c, nombre: d, exposicion: e};
@@ -9086,6 +9080,10 @@ var _salvarubiomartinez$mci$Models$colaboracionDecoder = A3(
 	_salvarubiomartinez$mci$Models$Colaboracion,
 	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'info', _elm_lang$core$Json_Decode$string));
+var _salvarubiomartinez$mci$Models$Register = F3(
+	function (a, b, c) {
+		return {email: a, psw: b, psw2: c};
+	});
 var _salvarubiomartinez$mci$Models$Model = function (a) {
 	return function (b) {
 		return function (c) {
@@ -9096,7 +9094,9 @@ var _salvarubiomartinez$mci$Models$Model = function (a) {
 							return function (h) {
 								return function (i) {
 									return function (j) {
-										return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, selectedTab: h, error: i, token: j};
+										return function (k) {
+											return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, selectedTab: h, error: i, token: j, register: k};
+										};
 									};
 								};
 							};
@@ -9120,6 +9120,9 @@ var _salvarubiomartinez$mci$Msgs$AdministracionMsg = function (a) {
 var _salvarubiomartinez$mci$Msgs$EnviarColaboracionMsg = function (a) {
 	return {ctor: 'EnviarColaboracionMsg', _0: a};
 };
+var _salvarubiomartinez$mci$Msgs$RegisterMsg = function (a) {
+	return {ctor: 'RegisterMsg', _0: a};
+};
 var _salvarubiomartinez$mci$Msgs$LoginMsg = function (a) {
 	return {ctor: 'LoginMsg', _0: a};
 };
@@ -9134,6 +9137,21 @@ var _salvarubiomartinez$mci$Msgs$UpdateLoginPsw = function (a) {
 };
 var _salvarubiomartinez$mci$Msgs$UpdateLoginEmail = function (a) {
 	return {ctor: 'UpdateLoginEmail', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$GetRegister = function (a) {
+	return {ctor: 'GetRegister', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$SubmitRegister = function (a) {
+	return {ctor: 'SubmitRegister', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$UpdateRegisterPsw2 = function (a) {
+	return {ctor: 'UpdateRegisterPsw2', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$UpdateRegisterPsw = function (a) {
+	return {ctor: 'UpdateRegisterPsw', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$UpdateRegisterEmail = function (a) {
+	return {ctor: 'UpdateRegisterEmail', _0: a};
 };
 var _salvarubiomartinez$mci$Msgs$ChangeTab = function (a) {
 	return {ctor: 'ChangeTab', _0: a};
@@ -9891,6 +9909,8 @@ var _salvarubiomartinez$mci$EnviarAdhesion$enviarAdhesionView = function (model)
 		});
 };
 
+var _salvarubiomartinez$mci$Settings$apiUrl = 'http://localhost/mci';
+
 var _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionView = function (model) {
 	var colaboracion = function () {
 		var _p0 = model.colaboracion;
@@ -10025,20 +10045,44 @@ var _salvarubiomartinez$mci$EnviarColaboracion$encodeColaboracion = function (co
 			}
 		});
 };
-var _salvarubiomartinez$mci$EnviarColaboracion$postColaboracion = function (colaboracion) {
-	return A2(
-		_elm_lang$http$Http$send,
-		function (a) {
-			return _salvarubiomartinez$mci$Msgs$EnviarColaboracionMsg(
-				_salvarubiomartinez$mci$Msgs$PostColaboracionResponse(a));
-		},
-		A3(
-			_elm_lang$http$Http$post,
-			'http://localhost/mci/api/socio',
-			_elm_lang$http$Http$jsonBody(
-				_salvarubiomartinez$mci$EnviarColaboracion$encodeColaboracion(colaboracion)),
-			_salvarubiomartinez$mci$Models$colaboracionDecoder));
-};
+var _salvarubiomartinez$mci$EnviarColaboracion$loginColaboracion = F2(
+	function (usuario, colaboracion) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'POST',
+				headers: {
+					ctor: '::',
+					_0: A2(_elm_lang$http$Http$header, 'Content-Type', 'application/json'),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$http$Http$header,
+							'Authorization',
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								usuario.email,
+								A2(_elm_lang$core$Basics_ops['++'], ', ', usuario.token))),
+						_1: {ctor: '[]'}
+					}
+				},
+				url: A2(_elm_lang$core$Basics_ops['++'], _salvarubiomartinez$mci$Settings$apiUrl, '/api/socio'),
+				body: _elm_lang$http$Http$jsonBody(
+					_salvarubiomartinez$mci$EnviarColaboracion$encodeColaboracion(colaboracion)),
+				expect: _elm_lang$http$Http$expectJson(_salvarubiomartinez$mci$Models$colaboracionDecoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _salvarubiomartinez$mci$EnviarColaboracion$postColaboracion = F2(
+	function (usuario, colaboracion) {
+		return A2(
+			_elm_lang$http$Http$send,
+			function (a) {
+				return _salvarubiomartinez$mci$Msgs$EnviarColaboracionMsg(
+					_salvarubiomartinez$mci$Msgs$PostColaboracionResponse(a));
+			},
+			A2(_salvarubiomartinez$mci$EnviarColaboracion$loginColaboracion, usuario, colaboracion));
+	});
 var _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionUpdate = F2(
 	function (msg, model) {
 		var _p1 = msg;
@@ -10059,11 +10103,16 @@ var _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionUpdate = F2(
 				if (_p2.ctor === 'Nothing') {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				} else {
-					return {
-						ctor: '_Tuple2',
-						_0: model,
-						_1: _salvarubiomartinez$mci$EnviarColaboracion$postColaboracion(_p2._0)
-					};
+					var _p3 = model.usuario;
+					if (_p3.ctor === 'Nothing') {
+						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					} else {
+						return {
+							ctor: '_Tuple2',
+							_0: model,
+							_1: A2(_salvarubiomartinez$mci$EnviarColaboracion$postColaboracion, _p3._0, _p2._0)
+						};
+					}
 				}
 			default:
 				if (_p1._0.ctor === 'Ok') {
@@ -10309,8 +10358,6 @@ var _salvarubiomartinez$mci$Index$indexUpdate = F2(
 		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 	});
 
-var _salvarubiomartinez$mci$Settings$apiUrl = 'http://localhost/mci';
-
 var _salvarubiomartinez$mci$Login$loginView = function (login) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -10498,13 +10545,13 @@ var _salvarubiomartinez$mci$Login$loginView = function (login) {
 															_1: {
 																ctor: '::',
 																_0: _elm_lang$html$Html_Events$onClick(
-																	_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Index)),
+																	_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Registro)),
 																_1: {ctor: '[]'}
 															}
 														},
 														{
 															ctor: '::',
-															_0: _elm_lang$html$Html$text('reggistrarse'),
+															_0: _elm_lang$html$Html$text('registrarse'),
 															_1: {ctor: '[]'}
 														}),
 													_1: {ctor: '[]'}
@@ -10600,9 +10647,411 @@ var _salvarubiomartinez$mci$Login$loginUpdate = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								token: _elm_lang$core$Maybe$Just(_p0._0._0),
+								usuario: _elm_lang$core$Maybe$Just(
+									A2(_salvarubiomartinez$mci$Models$Usuario, model.login.email, _p0._0._0)),
 								route: _salvarubiomartinez$mci$Routing$Index,
 								error: _elm_lang$core$Maybe$Nothing
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								error: _elm_lang$core$Maybe$Just(
+									_elm_lang$core$Basics$toString(_p0._0._0))
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				}
+		}
+	});
+
+var _salvarubiomartinez$mci$Register$registerView = function (register) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$p,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						A2(_elm_lang$core$Basics_ops['++'], 'email :', register.email)),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$p,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							A2(_elm_lang$core$Basics_ops['++'], 'passwotd :', register.psw)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$p,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								A2(_elm_lang$core$Basics_ops['++'], 'passwotd2 :', register.psw2)),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$h3,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Register'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('form-group'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$label,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Email'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$input,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('form-control'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$placeholder('enter email'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$type_('email'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onInput(
+																		function (st) {
+																			return _salvarubiomartinez$mci$Msgs$RegisterMsg(
+																				_salvarubiomartinez$mci$Msgs$UpdateRegisterEmail(st));
+																		}),
+																	_1: {ctor: '[]'}
+																}
+															}
+														}
+													},
+													{ctor: '[]'}),
+												_1: {ctor: '[]'}
+											}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('form-group'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$label,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Password'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$input,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('form-control'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$placeholder('enter password'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$type_('password'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Events$onInput(
+																			function (st) {
+																				return _salvarubiomartinez$mci$Msgs$RegisterMsg(
+																					_salvarubiomartinez$mci$Msgs$UpdateRegisterPsw(st));
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														},
+														{ctor: '[]'}),
+													_1: {ctor: '[]'}
+												}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$div,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('form-group'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$label,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text('Repeat Password'),
+															_1: {ctor: '[]'}
+														}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$input,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('form-control'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$placeholder('enter password'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Attributes$type_('password'),
+																		_1: {
+																			ctor: '::',
+																			_0: _elm_lang$html$Html_Events$onInput(
+																				function (st) {
+																					return _salvarubiomartinez$mci$Msgs$RegisterMsg(
+																						_salvarubiomartinez$mci$Msgs$UpdateRegisterPsw2(st));
+																				}),
+																			_1: {ctor: '[]'}
+																		}
+																	}
+																}
+															},
+															{ctor: '[]'}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$p,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$style(
+																		{
+																			ctor: '::',
+																			_0: {ctor: '_Tuple2', _0: 'color', _1: 'red'},
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {ctor: '[]'}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text(
+																		_elm_lang$core$Native_Utils.eq(register.psw, register.psw2) ? '' : 'el password no coincide'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}
+													}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$div,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('form-group'),
+														_1: {ctor: '[]'}
+													},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(
+																		_salvarubiomartinez$mci$Msgs$RegisterMsg(
+																			_salvarubiomartinez$mci$Msgs$SubmitRegister(register))),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text('enviar'),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$div,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$class('form-group'),
+															_1: {ctor: '[]'}
+														},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$button,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Events$onClick(
+																			_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Index)),
+																		_1: {ctor: '[]'}
+																	}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('volver'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		});
+};
+var _salvarubiomartinez$mci$Register$registerPost = function (register) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'POST',
+			headers: {
+				ctor: '::',
+				_0: A2(_elm_lang$http$Http$header, 'Content-Type', 'application/json'),
+				_1: {ctor: '[]'}
+			},
+			url: A2(_elm_lang$core$Basics_ops['++'], _salvarubiomartinez$mci$Settings$apiUrl, '/register'),
+			body: _elm_lang$http$Http$jsonBody(
+				_elm_lang$core$Json_Encode$object(
+					{
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'email',
+							_1: _elm_lang$core$Json_Encode$string(register.email)
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'psswd',
+								_1: _elm_lang$core$Json_Encode$string(register.psw)
+							},
+							_1: {ctor: '[]'}
+						}
+					})),
+			expect: _elm_lang$http$Http$expectString,
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};
+var _salvarubiomartinez$mci$Register$registerSend = function (register) {
+	return A2(
+		_elm_lang$http$Http$send,
+		function (a) {
+			return _salvarubiomartinez$mci$Msgs$RegisterMsg(
+				_salvarubiomartinez$mci$Msgs$GetRegister(a));
+		},
+		_salvarubiomartinez$mci$Register$registerPost(register));
+};
+var _salvarubiomartinez$mci$Register$registerUpdate = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'UpdateRegisterEmail':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							register: {email: _p0._0, psw: model.register.psw, psw2: model.register.psw2}
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdateRegisterPsw':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							register: {email: model.register.email, psw: _p0._0, psw2: model.register.psw2}
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdateRegisterPsw2':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							register: {email: model.register.email, psw: model.register.psw, psw2: _p0._0}
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SubmitRegister':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _salvarubiomartinez$mci$Register$registerSend(_p0._0)
+				};
+			default:
+				if (_p0._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								route: _salvarubiomartinez$mci$Routing$Login,
+								error: _elm_lang$core$Maybe$Just(_p0._0._0)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -10672,35 +11121,54 @@ var _salvarubiomartinez$mci$Main$view = function (model) {
 			_1: {
 				ctor: '::',
 				_0: function () {
-					var _p1 = model.route;
-					switch (_p1.ctor) {
-						case 'Login':
-							return _salvarubiomartinez$mci$Login$loginView(model.login);
-						case 'Registro':
-							return A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
-								{ctor: '[]'});
-						case 'Index':
-							return _salvarubiomartinez$mci$Index$indexView(model);
-						case 'EnviarColaboracion':
-							return _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionView(model);
-						case 'EnviarDenuncia':
-							return _salvarubiomartinez$mci$EnviarDenuncia$enviarDenunciaView(model);
-						case 'AdherirManifiesto':
-							return _salvarubiomartinez$mci$EnviarAdhesion$enviarAdhesionView(model);
-						default:
-							return _salvarubiomartinez$mci$Administracion$administracionView(model);
+					var _p1 = model.usuario;
+					if (_p1.ctor === 'Nothing') {
+						return A2(
+							_elm_lang$html$Html$p,
+							{ctor: '[]'},
+							{ctor: '[]'});
+					} else {
+						return A2(
+							_elm_lang$html$Html$p,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A2(_elm_lang$core$Basics_ops['++'], 'usuario: ', _p1._0.email)),
+								_1: {ctor: '[]'}
+							});
 					}
 				}(),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: function () {
+						var _p2 = model.route;
+						switch (_p2.ctor) {
+							case 'Login':
+								return _salvarubiomartinez$mci$Login$loginView(model.login);
+							case 'Registro':
+								return _salvarubiomartinez$mci$Register$registerView(model.register);
+							case 'Index':
+								return _salvarubiomartinez$mci$Index$indexView(model);
+							case 'EnviarColaboracion':
+								return _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionView(model);
+							case 'EnviarDenuncia':
+								return _salvarubiomartinez$mci$EnviarDenuncia$enviarDenunciaView(model);
+							case 'AdherirManifiesto':
+								return _salvarubiomartinez$mci$EnviarAdhesion$enviarAdhesionView(model);
+							default:
+								return _salvarubiomartinez$mci$Administracion$administracionView(model);
+						}
+					}(),
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 };
 var _salvarubiomartinez$mci$Main$updateRoute = F2(
 	function (route, model) {
-		var _p2 = route;
-		switch (_p2.ctor) {
+		var _p3 = route;
+		switch (_p3.ctor) {
 			case 'Login':
 				return {
 					ctor: '_Tuple2',
@@ -10761,16 +11229,18 @@ var _salvarubiomartinez$mci$Main$updateRoute = F2(
 	});
 var _salvarubiomartinez$mci$Main$update = F2(
 	function (msg, model) {
-		var _p3 = msg;
-		switch (_p3.ctor) {
+		var _p4 = msg;
+		switch (_p4.ctor) {
 			case 'UpdateRoute':
-				return A2(_salvarubiomartinez$mci$Main$updateRoute, _p3._0, model);
+				return A2(_salvarubiomartinez$mci$Main$updateRoute, _p4._0, model);
 			case 'LoginMsg':
-				return A2(_salvarubiomartinez$mci$Login$loginUpdate, _p3._0, model);
+				return A2(_salvarubiomartinez$mci$Login$loginUpdate, _p4._0, model);
+			case 'RegisterMsg':
+				return A2(_salvarubiomartinez$mci$Register$registerUpdate, _p4._0, model);
 			case 'AdministracionMsg':
-				return A2(_salvarubiomartinez$mci$Administracion$administracionUpdate, _p3._0, model);
+				return A2(_salvarubiomartinez$mci$Administracion$administracionUpdate, _p4._0, model);
 			default:
-				return A2(_salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionUpdate, _p3._0, model);
+				return A2(_salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionUpdate, _p4._0, model);
 		}
 	});
 var _salvarubiomartinez$mci$Main$init = {
@@ -10789,7 +11259,8 @@ var _salvarubiomartinez$mci$Main$init = {
 		colaboracion: _elm_lang$core$Maybe$Nothing,
 		selectedTab: _salvarubiomartinez$mci$Models$TabDenuncias,
 		error: _elm_lang$core$Maybe$Nothing,
-		token: _elm_lang$core$Maybe$Nothing
+		token: _elm_lang$core$Maybe$Nothing,
+		register: A3(_salvarubiomartinez$mci$Models$Register, '', '', '')
 	},
 	_1: _elm_lang$core$Platform_Cmd$none
 };

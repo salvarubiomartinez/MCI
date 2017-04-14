@@ -8,6 +8,7 @@ import Models exposing (..)
 import Http exposing (..)
 import Json.Decode as Json
 import Json.Encode as Encode
+import Settings exposing (..)
 
 
 enviarColaboracionUpdate msg model =
@@ -17,15 +18,32 @@ enviarColaboracionUpdate msg model =
         PostColaboracion colaboracion ->
             case colaboracion of
                 Nothing -> (model, Cmd.none)
-                Just colab -> (model, postColaboracion colab)
+                Just colab -> case model.usuario of
+                                Nothing -> (model, Cmd.none)
+                                Just user -> (model, postColaboracion user colab)
         PostColaboracionResponse (Ok response) ->
             ({model | route = Index}, Cmd.none)
         PostColaboracionResponse (Err error) ->
             ({model | error = Just (toString error)}, Cmd.none)
 
-postColaboracion : Colaboracion -> Cmd Msg
-postColaboracion colaboracion = Http.send (\a -> EnviarColaboracionMsg (PostColaboracionResponse a)) 
-  <| Http.post "http://localhost/mci/api/socio" (Http.jsonBody (encodeColaboracion colaboracion)) colaboracionDecoder
+postColaboracion : Usuario -> Colaboracion -> Cmd Msg
+postColaboracion usuario colaboracion = Http.send (\a -> EnviarColaboracionMsg (PostColaboracionResponse a)) 
+  <| loginColaboracion usuario colaboracion--Http.post "http://localhost/mci/api/socio" (Http.jsonBody (encodeColaboracion colaboracion)) colaboracionDecoder
+
+
+loginColaboracion : Usuario -> Colaboracion -> Request Colaboracion
+loginColaboracion usuario colaboracion =
+  Http.request
+    { method = "POST"
+    , headers = [Http.header "Content-Type" "application/json", Http.header "Authorization" (usuario.email ++", "++ usuario.token)]
+    , url = apiUrl ++ "/api/socio"
+    , body = jsonBody (encodeColaboracion colaboracion)
+    , expect = expectJson colaboracionDecoder
+    , timeout = Nothing
+    , withCredentials = False
+    }
+
+
 
 encodeColaboracion : Colaboracion -> Encode.Value
 encodeColaboracion colaboracion = 

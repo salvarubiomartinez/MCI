@@ -5,13 +5,14 @@ import Json.Decode as Json
 
 --Model
 type alias LoginUser = {email: String, psw : String}
-type alias Usuario = {id : Int, nombre : String, dni :String}
+type alias Usuario = {email : String, token :String}
 type alias Denuncia = {id: Int, usuarioId : Int, fecha : String, nombre: String, exposicion : String} --, comentarios : List Comentario}
 --type alias Comentario = {autor: String, hora : String, contenido : String}
 type alias AdhesionManifiesto = {id: Int, usuarioId: Int, info : String}
 type alias Colaboracion = {usuarioId: Int, info : String}
 type TabSelection = TabDenuncias | TabAdhesiones | TabColaboraciones
 type alias Token = Maybe String
+type alias Register =  {email: String, psw : String, psw2 : String}
 
 type alias Model = {usuario: Maybe Usuario,
                     login: LoginUser,
@@ -22,15 +23,16 @@ type alias Model = {usuario: Maybe Usuario,
                     colaboracion : Maybe Colaboracion,
                     selectedTab : TabSelection,
                     error : Maybe String, 
-                    token: Token}
+                    token: Token, 
+                    register: Register}
 
 --Decoders
-usuarioDecoder: Json.Decoder Usuario
-usuarioDecoder = Json.map3
-  Usuario 
-    (Json.field "id" Json.int)
-    (Json.field "nombre" Json.string)
-    (Json.field "dni" Json.string)
+--usuarioDecoder: Json.Decoder Usuario
+--usuarioDecoder = Json.map2
+--  Usuario 
+--    (Json.field "id" Json.int)
+--    (Json.field "nombre" Json.string)
+--    (Json.field "dni" Json.string)
 
 denunciaDecoder: Json.Decoder Denuncia
 denunciaDecoder = Json.map5

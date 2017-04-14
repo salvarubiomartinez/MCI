@@ -4,7 +4,7 @@ import Http exposing (Error)
 import Models exposing (..)
 
 type Msg = LoginMsg LoginMsgActions
---    | RegistroMsg
+    | RegisterMsg RegisterMsgActions
 --    | IndexMsg
     | EnviarColaboracionMsg EnviarColaboracionActions
 --    | EnviarDenunciaMsg
@@ -16,6 +16,12 @@ type LoginMsgActions = UpdateLoginEmail String
     | UpdateLoginPsw String
     | SubmitLogin LoginUser
     | GetLogin (Result Http.Error String)
+
+type RegisterMsgActions = UpdateRegisterEmail String
+    | UpdateRegisterPsw String
+    | UpdateRegisterPsw2 String
+    | SubmitRegister Register
+    | GetRegister (Result Http.Error String)
 
 type AdministracionMsg = 
     GetInfo (Result Http.Error (List Denuncia))
