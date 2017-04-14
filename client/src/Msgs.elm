@@ -14,7 +14,8 @@ type Msg = LoginMsg LoginMsgActions
 
 type LoginMsgActions = UpdateLoginEmail String
     | UpdateLoginPsw String
-    | SubmitLogin
+    | SubmitLogin LoginUser
+    | GetLogin (Result Http.Error String)
 
 type AdministracionMsg = 
     GetInfo (Result Http.Error (List Denuncia))

@@ -12,6 +12,7 @@ import Msgs exposing (..)
 import Http exposing (..)
 import Json.Decode as Json
 
+
 main : Program Never Model Msg
 main =
   Html.program
