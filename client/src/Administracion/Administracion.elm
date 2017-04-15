@@ -7,6 +7,7 @@ import Routing exposing (..)
 import Models exposing (..)
 import Http exposing (..)
 import Json.Decode as Json
+import Settings exposing (..)
 
 administracionUpdate : AdministracionMsg -> Model -> (Model, Cmd Msg)
 administracionUpdate msg model =
@@ -14,15 +15,21 @@ administracionUpdate msg model =
         GetInfo (Ok info)->
             let
                 allItems = model.allItems
+                user = case model.usuario of
+                    Nothing -> Usuario "" ""
+                    Just u -> u
             in
-            ({ model | allItems = { allItems | denuncias = info} }, getadhesionManifiesto)
+            ({ model | allItems = { allItems | denuncias = info} }, getadhesionManifiesto user)
         GetInfo (Err error) ->
             ({model | error = Just (toString error)}, Cmd.none)
         GetadhesionManifiesto (Ok adhesiones) ->
             let
                 allItems = model.allItems
+                user = case model.usuario of
+                    Nothing -> Usuario "" ""
+                    Just u -> u
             in
-            ({ model | allItems = { allItems | adhesiones = adhesiones} }, getColaboracion)
+            ({ model | allItems = { allItems | adhesiones = adhesiones} }, getColaboracion user)
         GetadhesionManifiesto (Err error) ->
             ({model | error = Just (toString error)}, Cmd.none)
         GetColaboracion (Ok colaboraciones) ->
@@ -42,20 +49,32 @@ administracionUpdate msg model =
             ({model | selectedTab = selection, denuncia = Nothing, adhesion = Nothing, colaboracion = Nothing}, Cmd.none)
 
 
-getDenuncias: Cmd Msg
-getDenuncias = Http.send (\a -> AdministracionMsg (GetInfo a)) 
-  <| Http.get "http://localhost:3000/denuncias" 
+getDenuncias: Usuario -> Cmd Msg
+getDenuncias usuario = Http.send (\a -> AdministracionMsg (GetInfo a)) 
+  <| getItems "/admin/denuncia" usuario-- Http.get (apiUrl ++ "/admin/denuncia")
   <| Json.list denunciaDecoder
 
-getadhesionManifiesto: Cmd Msg
-getadhesionManifiesto = Http.send (\a -> AdministracionMsg (GetadhesionManifiesto a)) 
-  <| Http.get "http://localhost:3000/adhesionManifiesto" 
+getadhesionManifiesto: Usuario -> Cmd Msg
+getadhesionManifiesto usuario = Http.send (\a -> AdministracionMsg (GetadhesionManifiesto a)) 
+  <| getItems "/admin/adhesionManifiesto" usuario--Http.get (apiUrl ++ "/admin/adhesionManifiesto")
   <| Json.list adhesionManifiestoDecoder
 
-getColaboracion: Cmd Msg
-getColaboracion = Http.send (\a -> AdministracionMsg (GetColaboracion a)) 
-  <| Http.get "http://localhost:3000/colaboracion" 
+getColaboracion: Usuario -> Cmd Msg
+getColaboracion usuario = Http.send (\a -> AdministracionMsg (GetColaboracion a)) 
+  <| getItems  "/admin/socio" usuario -- Http.get (apiUrl ++ "/admin/socio")
   <| Json.list colaboracionDecoder
+
+--getColaboracion : Usuario -> Colaboracion -> Request Colaboracion
+getItems url usuario decoder =
+  Http.request
+    { method = "GET"
+    , headers = [Http.header "Content-Type" "application/json", Http.header "Authorization" (usuario.email ++", "++ usuario.token)]
+    , url = apiUrl ++ url
+    , body = emptyBody
+    , expect = expectJson decoder
+    , timeout = Nothing
+    , withCredentials = False
+    }
 
 administracionView : Model -> Html Msg
 administracionView model = 
@@ -69,8 +88,8 @@ administracionView model =
                                 Just adhe -> {usuarioId = (toString adhe.usuarioId), info = adhe.info}
 
                     colaboracion = case model.colaboracion of
-                                Nothing -> {usuarioId = "", info = ""}
-                                Just cola -> {usuarioId = (toString cola.usuarioId), info = cola.info}
+                                Nothing -> Colaboracion "" "" "" "" "" ""
+                                Just cola -> cola
 
                     tabDenuncias = if model.selectedTab == TabDenuncias then "active" else ""
                     tabAdhesiones = if model.selectedTab == TabAdhesiones then "active" else ""
@@ -122,15 +141,19 @@ administracionView model =
                                 ],
                                 div [class ("tab-pane" ++ tabColaboraciones)][
                                     div [class "list-group col-md-4"]
-                                    <| List.map (\ denuncia ->
-                                    a [class ("list-group-item" ++ (if colaboracion.info == denuncia.info then " active" else "")), 
-                                        onClick (AdministracionMsg (SelectColaboracion denuncia))][
-                                        h4 [class "list-group-item-heading"][text (toString denuncia.usuarioId)],
-                                        p[class "list-group-item-text"][text denuncia.info]]) model.allItems.colaboraciones,
+                                    <| List.map (\ item ->
+                                    a [class ("list-group-item" ++ (if colaboracion.dni == item.dni then " active" else "")), 
+                                        onClick (AdministracionMsg (SelectColaboracion item))][
+                                        h4 [class "list-group-item-heading"][text <| item.nom ++ " " ++ item.cognoms],
+                                        p[class "list-group-item-text"][text item.email]]) model.allItems.colaboraciones,
                                     div [class "col-md-8"][
                                         div [][
-                                            p [][text ("nombre: " ++ colaboracion.usuarioId)],
-                                            p [][text ("exposicion: " ++ colaboracion.info)]
+                                            p [][text ("nom: " ++ colaboracion.nom)],
+                                            p [][text ("cognoms: " ++ colaboracion.cognoms)],
+                                            p [][text ("email: " ++ colaboracion.email)],
+                                            p [][text ("dni: " ++ colaboracion.dni)],
+                                            p [][text ("localitat: " ++ colaboracion.localitat)],
+                                            p [][text ("població: " ++ colaboracion.poblacio)]
                                         ]
                                     ]
                                 ]

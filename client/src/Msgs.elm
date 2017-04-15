@@ -33,6 +33,11 @@ type AdministracionMsg =
     | ChangeTab TabSelection
 
 type EnviarColaboracionActions = 
-    UpdateColaboracion String
-    | PostColaboracion (Maybe Colaboracion)
+    UpdateColaboracionNom String
+    | UpdateColaboracionCognoms String
+--    | UpdateColaboracionEmail String
+    | UpdateColaboracionDni String
+    | UpdateColaboracionLocalitat String
+    | UpdateColaboracionPoblacio String
+    | PostColaboracion Colaboracion
     | PostColaboracionResponse (Result Http.Error Colaboracion)

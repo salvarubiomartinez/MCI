@@ -11,6 +11,9 @@ indexUpdate msg model=
 indexView model = div [][
     h1 [][text "Welcome usuario"],
     div [][
+        div [][
+            a [class "btn btn-primary btn-lg",onClick (UpdateRoute Administracion)][text "Administración"]
+        ],
         div [class "jumbotron"][
             h1[][text "Denuncias"],
             p [][text "Envianos una denuncia"],

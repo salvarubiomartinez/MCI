@@ -9071,15 +9071,19 @@ var _salvarubiomartinez$mci$Models$adhesionManifiestoDecoder = A4(
 	A2(_elm_lang$core$Json_Decode$field, 'id', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
 	A2(_elm_lang$core$Json_Decode$field, 'info', _elm_lang$core$Json_Decode$string));
-var _salvarubiomartinez$mci$Models$Colaboracion = F2(
-	function (a, b) {
-		return {usuarioId: a, info: b};
+var _salvarubiomartinez$mci$Models$Colaboracion = F6(
+	function (a, b, c, d, e, f) {
+		return {nom: a, cognoms: b, email: c, dni: d, localitat: e, poblacio: f};
 	});
-var _salvarubiomartinez$mci$Models$colaboracionDecoder = A3(
-	_elm_lang$core$Json_Decode$map2,
+var _salvarubiomartinez$mci$Models$colaboracionDecoder = A7(
+	_elm_lang$core$Json_Decode$map6,
 	_salvarubiomartinez$mci$Models$Colaboracion,
-	A2(_elm_lang$core$Json_Decode$field, 'usuarioId', _elm_lang$core$Json_Decode$int),
-	A2(_elm_lang$core$Json_Decode$field, 'info', _elm_lang$core$Json_Decode$string));
+	A2(_elm_lang$core$Json_Decode$field, 'nom', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'cognoms', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'email', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'dni', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'localitat', _elm_lang$core$Json_Decode$string),
+	A2(_elm_lang$core$Json_Decode$field, 'poblacio', _elm_lang$core$Json_Decode$string));
 var _salvarubiomartinez$mci$Models$Register = F3(
 	function (a, b, c) {
 		return {email: a, psw: b, psw2: c};
@@ -9095,7 +9099,7 @@ var _salvarubiomartinez$mci$Models$Model = function (a) {
 								return function (i) {
 									return function (j) {
 										return function (k) {
-											return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, selectedTab: h, error: i, token: j, register: k};
+											return {usuario: a, login: b, route: c, allItems: d, denuncia: e, adhesion: f, colaboracion: g, selectedTab: h, error: i, modelOk: j, register: k};
 										};
 									};
 								};
@@ -9180,9 +9184,23 @@ var _salvarubiomartinez$mci$Msgs$PostColaboracionResponse = function (a) {
 var _salvarubiomartinez$mci$Msgs$PostColaboracion = function (a) {
 	return {ctor: 'PostColaboracion', _0: a};
 };
-var _salvarubiomartinez$mci$Msgs$UpdateColaboracion = function (a) {
-	return {ctor: 'UpdateColaboracion', _0: a};
+var _salvarubiomartinez$mci$Msgs$UpdateColaboracionPoblacio = function (a) {
+	return {ctor: 'UpdateColaboracionPoblacio', _0: a};
 };
+var _salvarubiomartinez$mci$Msgs$UpdateColaboracionLocalitat = function (a) {
+	return {ctor: 'UpdateColaboracionLocalitat', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$UpdateColaboracionDni = function (a) {
+	return {ctor: 'UpdateColaboracionDni', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$UpdateColaboracionCognoms = function (a) {
+	return {ctor: 'UpdateColaboracionCognoms', _0: a};
+};
+var _salvarubiomartinez$mci$Msgs$UpdateColaboracionNom = function (a) {
+	return {ctor: 'UpdateColaboracionNom', _0: a};
+};
+
+var _salvarubiomartinez$mci$Settings$apiUrl = 'http://localhost/mci';
 
 var _salvarubiomartinez$mci$Administracion$administracionView = function (model) {
 	var tabColaboraciones = _elm_lang$core$Native_Utils.eq(model.selectedTab, _salvarubiomartinez$mci$Models$TabColaboraciones) ? 'active' : '';
@@ -9191,34 +9209,30 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 	var colaboracion = function () {
 		var _p0 = model.colaboracion;
 		if (_p0.ctor === 'Nothing') {
-			return {usuarioId: '', info: ''};
+			return A6(_salvarubiomartinez$mci$Models$Colaboracion, '', '', '', '', '', '');
 		} else {
-			var _p1 = _p0._0;
-			return {
-				usuarioId: _elm_lang$core$Basics$toString(_p1.usuarioId),
-				info: _p1.info
-			};
+			return _p0._0;
 		}
 	}();
 	var adhesion = function () {
-		var _p2 = model.adhesion;
-		if (_p2.ctor === 'Nothing') {
+		var _p1 = model.adhesion;
+		if (_p1.ctor === 'Nothing') {
 			return {usuarioId: '', info: ''};
 		} else {
-			var _p3 = _p2._0;
+			var _p2 = _p1._0;
 			return {
-				usuarioId: _elm_lang$core$Basics$toString(_p3.usuarioId),
-				info: _p3.info
+				usuarioId: _elm_lang$core$Basics$toString(_p2.usuarioId),
+				info: _p2.info
 			};
 		}
 	}();
 	var denuncia = function () {
-		var _p4 = model.denuncia;
-		if (_p4.ctor === 'Nothing') {
+		var _p3 = model.denuncia;
+		if (_p3.ctor === 'Nothing') {
 			return {nombre: '', exposicion: ''};
 		} else {
-			var _p5 = _p4._0;
-			return {nombre: _p5.nombre, exposicion: _p5.exposicion};
+			var _p4 = _p3._0;
+			return {nombre: _p4.nombre, exposicion: _p4.exposicion};
 		}
 	}();
 	return A2(
@@ -9610,7 +9624,7 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 															},
 															A2(
 																_elm_lang$core$List$map,
-																function (denuncia) {
+																function (item) {
 																	return A2(
 																		_elm_lang$html$Html$a,
 																		{
@@ -9619,12 +9633,12 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 																				A2(
 																					_elm_lang$core$Basics_ops['++'],
 																					'list-group-item',
-																					_elm_lang$core$Native_Utils.eq(colaboracion.info, denuncia.info) ? ' active' : '')),
+																					_elm_lang$core$Native_Utils.eq(colaboracion.dni, item.dni) ? ' active' : '')),
 																			_1: {
 																				ctor: '::',
 																				_0: _elm_lang$html$Html_Events$onClick(
 																					_salvarubiomartinez$mci$Msgs$AdministracionMsg(
-																						_salvarubiomartinez$mci$Msgs$SelectColaboracion(denuncia))),
+																						_salvarubiomartinez$mci$Msgs$SelectColaboracion(item))),
 																				_1: {ctor: '[]'}
 																			}
 																		},
@@ -9640,7 +9654,10 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 																				{
 																					ctor: '::',
 																					_0: _elm_lang$html$Html$text(
-																						_elm_lang$core$Basics$toString(denuncia.usuarioId)),
+																						A2(
+																							_elm_lang$core$Basics_ops['++'],
+																							item.nom,
+																							A2(_elm_lang$core$Basics_ops['++'], ' ', item.cognoms))),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {
@@ -9654,7 +9671,7 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 																					},
 																					{
 																						ctor: '::',
-																						_0: _elm_lang$html$Html$text(denuncia.info),
+																						_0: _elm_lang$html$Html$text(item.email),
 																						_1: {ctor: '[]'}
 																					}),
 																				_1: {ctor: '[]'}
@@ -9684,7 +9701,7 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 																				{
 																					ctor: '::',
 																					_0: _elm_lang$html$Html$text(
-																						A2(_elm_lang$core$Basics_ops['++'], 'nombre: ', colaboracion.usuarioId)),
+																						A2(_elm_lang$core$Basics_ops['++'], 'nom: ', colaboracion.nom)),
 																					_1: {ctor: '[]'}
 																				}),
 																			_1: {
@@ -9695,10 +9712,58 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 																					{
 																						ctor: '::',
 																						_0: _elm_lang$html$Html$text(
-																							A2(_elm_lang$core$Basics_ops['++'], 'exposicion: ', colaboracion.info)),
+																							A2(_elm_lang$core$Basics_ops['++'], 'cognoms: ', colaboracion.cognoms)),
 																						_1: {ctor: '[]'}
 																					}),
-																				_1: {ctor: '[]'}
+																				_1: {
+																					ctor: '::',
+																					_0: A2(
+																						_elm_lang$html$Html$p,
+																						{ctor: '[]'},
+																						{
+																							ctor: '::',
+																							_0: _elm_lang$html$Html$text(
+																								A2(_elm_lang$core$Basics_ops['++'], 'email: ', colaboracion.email)),
+																							_1: {ctor: '[]'}
+																						}),
+																					_1: {
+																						ctor: '::',
+																						_0: A2(
+																							_elm_lang$html$Html$p,
+																							{ctor: '[]'},
+																							{
+																								ctor: '::',
+																								_0: _elm_lang$html$Html$text(
+																									A2(_elm_lang$core$Basics_ops['++'], 'dni: ', colaboracion.dni)),
+																								_1: {ctor: '[]'}
+																							}),
+																						_1: {
+																							ctor: '::',
+																							_0: A2(
+																								_elm_lang$html$Html$p,
+																								{ctor: '[]'},
+																								{
+																									ctor: '::',
+																									_0: _elm_lang$html$Html$text(
+																										A2(_elm_lang$core$Basics_ops['++'], 'localitat: ', colaboracion.localitat)),
+																									_1: {ctor: '[]'}
+																								}),
+																							_1: {
+																								ctor: '::',
+																								_0: A2(
+																									_elm_lang$html$Html$p,
+																									{ctor: '[]'},
+																									{
+																										ctor: '::',
+																										_0: _elm_lang$html$Html$text(
+																											A2(_elm_lang$core$Basics_ops['++'], 'població: ', colaboracion.poblacio)),
+																										_1: {ctor: '[]'}
+																									}),
+																								_1: {ctor: '[]'}
+																							}
+																						}
+																					}
+																				}
 																			}
 																		}),
 																	_1: {ctor: '[]'}
@@ -9745,42 +9810,86 @@ var _salvarubiomartinez$mci$Administracion$administracionView = function (model)
 			}
 		});
 };
-var _salvarubiomartinez$mci$Administracion$getColaboracion = A2(
-	_elm_lang$http$Http$send,
-	function (a) {
-		return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
-			_salvarubiomartinez$mci$Msgs$GetColaboracion(a));
-	},
-	A2(
-		_elm_lang$http$Http$get,
-		'http://localhost:3000/colaboracion',
-		_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$colaboracionDecoder)));
-var _salvarubiomartinez$mci$Administracion$getadhesionManifiesto = A2(
-	_elm_lang$http$Http$send,
-	function (a) {
-		return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
-			_salvarubiomartinez$mci$Msgs$GetadhesionManifiesto(a));
-	},
-	A2(
-		_elm_lang$http$Http$get,
-		'http://localhost:3000/adhesionManifiesto',
-		_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$adhesionManifiestoDecoder)));
-var _salvarubiomartinez$mci$Administracion$getDenuncias = A2(
-	_elm_lang$http$Http$send,
-	function (a) {
-		return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
-			_salvarubiomartinez$mci$Msgs$GetInfo(a));
-	},
-	A2(
-		_elm_lang$http$Http$get,
-		'http://localhost:3000/denuncias',
-		_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$denunciaDecoder)));
+var _salvarubiomartinez$mci$Administracion$getItems = F3(
+	function (url, usuario, decoder) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'GET',
+				headers: {
+					ctor: '::',
+					_0: A2(_elm_lang$http$Http$header, 'Content-Type', 'application/json'),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$http$Http$header,
+							'Authorization',
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								usuario.email,
+								A2(_elm_lang$core$Basics_ops['++'], ', ', usuario.token))),
+						_1: {ctor: '[]'}
+					}
+				},
+				url: A2(_elm_lang$core$Basics_ops['++'], _salvarubiomartinez$mci$Settings$apiUrl, url),
+				body: _elm_lang$http$Http$emptyBody,
+				expect: _elm_lang$http$Http$expectJson(decoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _salvarubiomartinez$mci$Administracion$getColaboracion = function (usuario) {
+	return A2(
+		_elm_lang$http$Http$send,
+		function (a) {
+			return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
+				_salvarubiomartinez$mci$Msgs$GetColaboracion(a));
+		},
+		A3(
+			_salvarubiomartinez$mci$Administracion$getItems,
+			'/admin/socio',
+			usuario,
+			_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$colaboracionDecoder)));
+};
+var _salvarubiomartinez$mci$Administracion$getadhesionManifiesto = function (usuario) {
+	return A2(
+		_elm_lang$http$Http$send,
+		function (a) {
+			return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
+				_salvarubiomartinez$mci$Msgs$GetadhesionManifiesto(a));
+		},
+		A3(
+			_salvarubiomartinez$mci$Administracion$getItems,
+			'/admin/adhesionManifiesto',
+			usuario,
+			_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$adhesionManifiestoDecoder)));
+};
+var _salvarubiomartinez$mci$Administracion$getDenuncias = function (usuario) {
+	return A2(
+		_elm_lang$http$Http$send,
+		function (a) {
+			return _salvarubiomartinez$mci$Msgs$AdministracionMsg(
+				_salvarubiomartinez$mci$Msgs$GetInfo(a));
+		},
+		A3(
+			_salvarubiomartinez$mci$Administracion$getItems,
+			'/admin/denuncia',
+			usuario,
+			_elm_lang$core$Json_Decode$list(_salvarubiomartinez$mci$Models$denunciaDecoder)));
+};
 var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 	function (msg, model) {
-		var _p6 = msg;
-		switch (_p6.ctor) {
+		var _p5 = msg;
+		switch (_p5.ctor) {
 			case 'GetInfo':
-				if (_p6._0.ctor === 'Ok') {
+				if (_p5._0.ctor === 'Ok') {
+					var user = function () {
+						var _p6 = model.usuario;
+						if (_p6.ctor === 'Nothing') {
+							return A2(_salvarubiomartinez$mci$Models$Usuario, '', '');
+						} else {
+							return _p6._0;
+						}
+					}();
 					var allItems = model.allItems;
 					return {
 						ctor: '_Tuple2',
@@ -9789,9 +9898,9 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 							{
 								allItems: _elm_lang$core$Native_Utils.update(
 									allItems,
-									{denuncias: _p6._0._0})
+									{denuncias: _p5._0._0})
 							}),
-						_1: _salvarubiomartinez$mci$Administracion$getadhesionManifiesto
+						_1: _salvarubiomartinez$mci$Administracion$getadhesionManifiesto(user)
 					};
 				} else {
 					return {
@@ -9800,13 +9909,21 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 							model,
 							{
 								error: _elm_lang$core$Maybe$Just(
-									_elm_lang$core$Basics$toString(_p6._0._0))
+									_elm_lang$core$Basics$toString(_p5._0._0))
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
 			case 'GetadhesionManifiesto':
-				if (_p6._0.ctor === 'Ok') {
+				if (_p5._0.ctor === 'Ok') {
+					var user = function () {
+						var _p7 = model.usuario;
+						if (_p7.ctor === 'Nothing') {
+							return A2(_salvarubiomartinez$mci$Models$Usuario, '', '');
+						} else {
+							return _p7._0;
+						}
+					}();
 					var allItems = model.allItems;
 					return {
 						ctor: '_Tuple2',
@@ -9815,9 +9932,9 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 							{
 								allItems: _elm_lang$core$Native_Utils.update(
 									allItems,
-									{adhesiones: _p6._0._0})
+									{adhesiones: _p5._0._0})
 							}),
-						_1: _salvarubiomartinez$mci$Administracion$getColaboracion
+						_1: _salvarubiomartinez$mci$Administracion$getColaboracion(user)
 					};
 				} else {
 					return {
@@ -9826,13 +9943,13 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 							model,
 							{
 								error: _elm_lang$core$Maybe$Just(
-									_elm_lang$core$Basics$toString(_p6._0._0))
+									_elm_lang$core$Basics$toString(_p5._0._0))
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
 			case 'GetColaboracion':
-				if (_p6._0.ctor === 'Ok') {
+				if (_p5._0.ctor === 'Ok') {
 					var allItems = model.allItems;
 					return {
 						ctor: '_Tuple2',
@@ -9841,7 +9958,7 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 							{
 								allItems: _elm_lang$core$Native_Utils.update(
 									allItems,
-									{colaboraciones: _p6._0._0})
+									{colaboraciones: _p5._0._0})
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -9852,7 +9969,7 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 							model,
 							{
 								error: _elm_lang$core$Maybe$Just(
-									_elm_lang$core$Basics$toString(_p6._0._0))
+									_elm_lang$core$Basics$toString(_p5._0._0))
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -9863,7 +9980,7 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							denuncia: _elm_lang$core$Maybe$Just(_p6._0)
+							denuncia: _elm_lang$core$Maybe$Just(_p5._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -9873,7 +9990,7 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							adhesion: _elm_lang$core$Maybe$Just(_p6._0)
+							adhesion: _elm_lang$core$Maybe$Just(_p5._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -9883,7 +10000,7 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							colaboracion: _elm_lang$core$Maybe$Just(_p6._0)
+							colaboracion: _elm_lang$core$Maybe$Just(_p5._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -9892,7 +10009,7 @@ var _salvarubiomartinez$mci$Administracion$administracionUpdate = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{selectedTab: _p6._0, denuncia: _elm_lang$core$Maybe$Nothing, adhesion: _elm_lang$core$Maybe$Nothing, colaboracion: _elm_lang$core$Maybe$Nothing}),
+						{selectedTab: _p5._0, denuncia: _elm_lang$core$Maybe$Nothing, adhesion: _elm_lang$core$Maybe$Nothing, colaboracion: _elm_lang$core$Maybe$Nothing}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -9909,15 +10026,79 @@ var _salvarubiomartinez$mci$EnviarAdhesion$enviarAdhesionView = function (model)
 		});
 };
 
-var _salvarubiomartinez$mci$Settings$apiUrl = 'http://localhost/mci';
-
+var _salvarubiomartinez$mci$EnviarColaboracion$inputView = F3(
+	function (labelName, msg, valor) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('form-group'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$label,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(labelName),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$input,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('form-control'),
+							_1: {
+								ctor: '::',
+								_0: A2(_elm_lang$html$Html_Attributes$attribute, 'required', 'true'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(
+										function (_p0) {
+											return _salvarubiomartinez$mci$Msgs$EnviarColaboracionMsg(
+												msg(_p0));
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$p,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$style(
+									{
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'color', _1: 'red'},
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									_elm_lang$core$Native_Utils.eq(valor, '') ? 'Aquest camp és obligatori' : ''),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
 var _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionView = function (model) {
 	var colaboracion = function () {
-		var _p0 = model.colaboracion;
-		if (_p0.ctor === 'Nothing') {
-			return A2(_salvarubiomartinez$mci$Models$Colaboracion, 1, '');
+		var _p1 = model.colaboracion;
+		if (_p1.ctor === 'Nothing') {
+			return A6(_salvarubiomartinez$mci$Models$Colaboracion, '', '', '', '', '', '');
 		} else {
-			return _p0._0;
+			return _p1._0;
 		}
 	}();
 	return A2(
@@ -9935,91 +10116,85 @@ var _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionView = function
 				}),
 			_1: {
 				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$p,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(
-							A2(_elm_lang$core$Basics_ops['++'], 'info: ', colaboracion.info)),
-						_1: {ctor: '[]'}
-					}),
+				_0: A3(_salvarubiomartinez$mci$EnviarColaboracion$inputView, 'Nom', _salvarubiomartinez$mci$Msgs$UpdateColaboracionNom, colaboracion.nom),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('form-group'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$label,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('info'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$textarea,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('form-control'),
-										_1: {
-											ctor: '::',
-											_0: A2(_elm_lang$html$Html_Attributes$attribute, 'rows', '3'),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onInput(
-													function (st) {
-														return _salvarubiomartinez$mci$Msgs$EnviarColaboracionMsg(
-															_salvarubiomartinez$mci$Msgs$UpdateColaboracion(st));
-													}),
-												_1: {ctor: '[]'}
-											}
-										}
-									},
-									{ctor: '[]'}),
-								_1: {ctor: '[]'}
-							}
-						}),
+					_0: A3(_salvarubiomartinez$mci$EnviarColaboracion$inputView, 'Cognoms', _salvarubiomartinez$mci$Msgs$UpdateColaboracionCognoms, colaboracion.cognoms),
 					_1: {
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
+						_0: A3(_salvarubiomartinez$mci$EnviarColaboracion$inputView, 'Dni', _salvarubiomartinez$mci$Msgs$UpdateColaboracionDni, colaboracion.dni),
+						_1: {
+							ctor: '::',
+							_0: A3(_salvarubiomartinez$mci$EnviarColaboracion$inputView, 'Localitat', _salvarubiomartinez$mci$Msgs$UpdateColaboracionLocalitat, 'not required'),
+							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('form-group'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$button,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
-										_1: {
+								_0: A3(_salvarubiomartinez$mci$EnviarColaboracion$inputView, 'Poblacio', _salvarubiomartinez$mci$Msgs$UpdateColaboracionPoblacio, 'not required'),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(
-												_salvarubiomartinez$mci$Msgs$EnviarColaboracionMsg(
-													_salvarubiomartinez$mci$Msgs$PostColaboracion(model.colaboracion))),
+											_0: _elm_lang$html$Html_Attributes$class('form-group'),
 											_1: {ctor: '[]'}
-										}
-									},
-									{
+										},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(
+															_salvarubiomartinez$mci$Msgs$EnviarColaboracionMsg(
+																_salvarubiomartinez$mci$Msgs$PostColaboracion(colaboracion))),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('enviar'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('enviar'),
+										_0: A2(
+											_elm_lang$html$Html$div,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('form-group'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$button,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$class('btn btn-default'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onClick(
+																_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Index)),
+															_1: {ctor: '[]'}
+														}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('cancel·lar'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}),
 										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
@@ -10031,17 +10206,49 @@ var _salvarubiomartinez$mci$EnviarColaboracion$encodeColaboracion = function (co
 			ctor: '::',
 			_0: {
 				ctor: '_Tuple2',
-				_0: 'usuarioId',
-				_1: _elm_lang$core$Json_Encode$int(colaboracion.usuarioId)
+				_0: 'nom',
+				_1: _elm_lang$core$Json_Encode$string(colaboracion.nom)
 			},
 			_1: {
 				ctor: '::',
 				_0: {
 					ctor: '_Tuple2',
-					_0: 'info',
-					_1: _elm_lang$core$Json_Encode$string(colaboracion.info)
+					_0: 'cognoms',
+					_1: _elm_lang$core$Json_Encode$string(colaboracion.cognoms)
 				},
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'email',
+						_1: _elm_lang$core$Json_Encode$string(colaboracion.email)
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'dni',
+							_1: _elm_lang$core$Json_Encode$string(colaboracion.dni)
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'localitat',
+								_1: _elm_lang$core$Json_Encode$string(colaboracion.localitat)
+							},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'poblacio',
+									_1: _elm_lang$core$Json_Encode$string(colaboracion.poblacio)
+								},
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
 			}
 		});
 };
@@ -10067,7 +10274,10 @@ var _salvarubiomartinez$mci$EnviarColaboracion$loginColaboracion = F2(
 				},
 				url: A2(_elm_lang$core$Basics_ops['++'], _salvarubiomartinez$mci$Settings$apiUrl, '/api/socio'),
 				body: _elm_lang$http$Http$jsonBody(
-					_salvarubiomartinez$mci$EnviarColaboracion$encodeColaboracion(colaboracion)),
+					_salvarubiomartinez$mci$EnviarColaboracion$encodeColaboracion(
+						_elm_lang$core$Native_Utils.update(
+							colaboracion,
+							{email: usuario.email}))),
 				expect: _elm_lang$http$Http$expectJson(_salvarubiomartinez$mci$Models$colaboracionDecoder),
 				timeout: _elm_lang$core$Maybe$Nothing,
 				withCredentials: false
@@ -10083,58 +10293,121 @@ var _salvarubiomartinez$mci$EnviarColaboracion$postColaboracion = F2(
 			},
 			A2(_salvarubiomartinez$mci$EnviarColaboracion$loginColaboracion, usuario, colaboracion));
 	});
+var _salvarubiomartinez$mci$EnviarColaboracion$checkColaboracion = function (colaboracion) {
+	return (_elm_lang$core$String$isEmpty(colaboracion.nom) || (_elm_lang$core$String$isEmpty(colaboracion.cognoms) || _elm_lang$core$String$isEmpty(colaboracion.dni))) ? false : true;
+};
 var _salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionUpdate = F2(
 	function (msg, model) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
-			case 'UpdateColaboracion':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							colaboracion: _elm_lang$core$Maybe$Just(
-								A2(_salvarubiomartinez$mci$Models$Colaboracion, 1, _p1._0))
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'PostColaboracion':
-				var _p2 = _p1._0;
-				if (_p2.ctor === 'Nothing') {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-				} else {
-					var _p3 = model.usuario;
-					if (_p3.ctor === 'Nothing') {
-						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-					} else {
-						return {
-							ctor: '_Tuple2',
-							_0: model,
-							_1: A2(_salvarubiomartinez$mci$EnviarColaboracion$postColaboracion, _p3._0, _p2._0)
-						};
-					}
-				}
-			default:
-				if (_p1._0.ctor === 'Ok') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{route: _salvarubiomartinez$mci$Routing$Index}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
+		var _p2 = model.colaboracion;
+		if (_p2.ctor === 'Nothing') {
+			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		} else {
+			var _p6 = _p2._0;
+			var _p3 = msg;
+			switch (_p3.ctor) {
+				case 'UpdateColaboracionNom':
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								error: _elm_lang$core$Maybe$Just(
-									_elm_lang$core$Basics$toString(_p1._0._0))
+								colaboracion: _elm_lang$core$Maybe$Just(
+									_elm_lang$core$Native_Utils.update(
+										_p6,
+										{nom: _p3._0}))
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
-				}
+				case 'UpdateColaboracionCognoms':
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								colaboracion: _elm_lang$core$Maybe$Just(
+									_elm_lang$core$Native_Utils.update(
+										_p6,
+										{cognoms: _p3._0}))
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				case 'UpdateColaboracionDni':
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								colaboracion: _elm_lang$core$Maybe$Just(
+									_elm_lang$core$Native_Utils.update(
+										_p6,
+										{dni: _p3._0}))
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				case 'UpdateColaboracionLocalitat':
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								colaboracion: _elm_lang$core$Maybe$Just(
+									_elm_lang$core$Native_Utils.update(
+										_p6,
+										{localitat: _p3._0}))
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				case 'UpdateColaboracionPoblacio':
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								colaboracion: _elm_lang$core$Maybe$Just(
+									_elm_lang$core$Native_Utils.update(
+										_p6,
+										{poblacio: _p3._0}))
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				case 'PostColaboracion':
+					var _p5 = _p3._0;
+					if (_salvarubiomartinez$mci$EnviarColaboracion$checkColaboracion(_p5)) {
+						var _p4 = model.usuario;
+						if (_p4.ctor === 'Nothing') {
+							return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+						} else {
+							return {
+								ctor: '_Tuple2',
+								_0: model,
+								_1: A2(_salvarubiomartinez$mci$EnviarColaboracion$postColaboracion, _p4._0, _p5)
+							};
+						}
+					} else {
+						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					}
+				default:
+					if (_p3._0.ctor === 'Ok') {
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{route: _salvarubiomartinez$mci$Routing$Index}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									error: _elm_lang$core$Maybe$Just(
+										_elm_lang$core$Basics$toString(_p3._0._0))
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					}
+			}
 		}
 	});
 
@@ -10172,60 +10445,27 @@ var _salvarubiomartinez$mci$Index$indexView = function (model) {
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('jumbotron'),
-								_1: {ctor: '[]'}
-							},
+							{ctor: '[]'},
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$h1,
-									{ctor: '[]'},
+									_elm_lang$html$Html$a,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('Denuncias'),
+										_0: _elm_lang$html$Html_Attributes$class('btn btn-primary btn-lg'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$Administracion)),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Administración'),
 										_1: {ctor: '[]'}
 									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$p,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Envianos una denuncia'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$p,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$a,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('btn btn-primary btn-lg'),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html_Events$onClick(
-																_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$EnviarDenuncia)),
-															_1: {ctor: '[]'}
-														}
-													},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('Adelante!'),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
-									}
-								}
+								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
@@ -10243,7 +10483,7 @@ var _salvarubiomartinez$mci$Index$indexView = function (model) {
 										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text('Subscripción al manifiesto'),
+											_0: _elm_lang$html$Html$text('Denuncias'),
 											_1: {ctor: '[]'}
 										}),
 									_1: {
@@ -10253,7 +10493,7 @@ var _salvarubiomartinez$mci$Index$indexView = function (model) {
 											{ctor: '[]'},
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html$text('Danos tu apoyo en el manifiesto'),
+												_0: _elm_lang$html$Html$text('Envianos una denuncia'),
 												_1: {ctor: '[]'}
 											}),
 										_1: {
@@ -10271,7 +10511,7 @@ var _salvarubiomartinez$mci$Index$indexView = function (model) {
 															_1: {
 																ctor: '::',
 																_0: _elm_lang$html$Html_Events$onClick(
-																	_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$AdherirManifiesto)),
+																	_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$EnviarDenuncia)),
 																_1: {ctor: '[]'}
 															}
 														},
@@ -10302,7 +10542,7 @@ var _salvarubiomartinez$mci$Index$indexView = function (model) {
 											{ctor: '[]'},
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html$text('Colaboración'),
+												_0: _elm_lang$html$Html$text('Subscripción al manifiesto'),
 												_1: {ctor: '[]'}
 											}),
 										_1: {
@@ -10312,7 +10552,7 @@ var _salvarubiomartinez$mci$Index$indexView = function (model) {
 												{ctor: '[]'},
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html$text('Somos una asociación que necesita colaboradores'),
+													_0: _elm_lang$html$Html$text('Danos tu apoyo en el manifiesto'),
 													_1: {ctor: '[]'}
 												}),
 											_1: {
@@ -10330,7 +10570,7 @@ var _salvarubiomartinez$mci$Index$indexView = function (model) {
 																_1: {
 																	ctor: '::',
 																	_0: _elm_lang$html$Html_Events$onClick(
-																		_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$EnviarColaboracion)),
+																		_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$AdherirManifiesto)),
 																	_1: {ctor: '[]'}
 																}
 															},
@@ -10345,7 +10585,67 @@ var _salvarubiomartinez$mci$Index$indexView = function (model) {
 											}
 										}
 									}),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('jumbotron'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$h1,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Colaboración'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$p,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Somos una asociación que necesita colaboradores'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$p,
+														{ctor: '[]'},
+														{
+															ctor: '::',
+															_0: A2(
+																_elm_lang$html$Html$a,
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Attributes$class('btn btn-primary btn-lg'),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html_Events$onClick(
+																			_salvarubiomartinez$mci$Msgs$UpdateRoute(_salvarubiomartinez$mci$Routing$EnviarColaboracion)),
+																		_1: {ctor: '[]'}
+																	}
+																},
+																{
+																	ctor: '::',
+																	_0: _elm_lang$html$Html$text('Adelante!'),
+																	_1: {ctor: '[]'}
+																}),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}
+											}
+										}),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}),
@@ -11198,7 +11498,11 @@ var _salvarubiomartinez$mci$Main$updateRoute = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{route: route}),
+						{
+							route: route,
+							colaboracion: _elm_lang$core$Maybe$Just(
+								A6(_salvarubiomartinez$mci$Models$Colaboracion, '', '', '', '', '', ''))
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'EnviarDenuncia':
@@ -11218,29 +11522,40 @@ var _salvarubiomartinez$mci$Main$updateRoute = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{route: route}),
-					_1: _salvarubiomartinez$mci$Administracion$getDenuncias
-				};
+				var _p4 = model.usuario;
+				if (_p4.ctor === 'Nothing') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{route: _salvarubiomartinez$mci$Routing$Login}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{route: route}),
+						_1: _salvarubiomartinez$mci$Administracion$getDenuncias(_p4._0)
+					};
+				}
 		}
 	});
 var _salvarubiomartinez$mci$Main$update = F2(
 	function (msg, model) {
-		var _p4 = msg;
-		switch (_p4.ctor) {
+		var _p5 = msg;
+		switch (_p5.ctor) {
 			case 'UpdateRoute':
-				return A2(_salvarubiomartinez$mci$Main$updateRoute, _p4._0, model);
+				return A2(_salvarubiomartinez$mci$Main$updateRoute, _p5._0, model);
 			case 'LoginMsg':
-				return A2(_salvarubiomartinez$mci$Login$loginUpdate, _p4._0, model);
+				return A2(_salvarubiomartinez$mci$Login$loginUpdate, _p5._0, model);
 			case 'RegisterMsg':
-				return A2(_salvarubiomartinez$mci$Register$registerUpdate, _p4._0, model);
+				return A2(_salvarubiomartinez$mci$Register$registerUpdate, _p5._0, model);
 			case 'AdministracionMsg':
-				return A2(_salvarubiomartinez$mci$Administracion$administracionUpdate, _p4._0, model);
+				return A2(_salvarubiomartinez$mci$Administracion$administracionUpdate, _p5._0, model);
 			default:
-				return A2(_salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionUpdate, _p4._0, model);
+				return A2(_salvarubiomartinez$mci$EnviarColaboracion$enviarColaboracionUpdate, _p5._0, model);
 		}
 	});
 var _salvarubiomartinez$mci$Main$init = {
@@ -11259,7 +11574,7 @@ var _salvarubiomartinez$mci$Main$init = {
 		colaboracion: _elm_lang$core$Maybe$Nothing,
 		selectedTab: _salvarubiomartinez$mci$Models$TabDenuncias,
 		error: _elm_lang$core$Maybe$Nothing,
-		token: _elm_lang$core$Maybe$Nothing,
+		modelOk: false,
 		register: A3(_salvarubiomartinez$mci$Models$Register, '', '', '')
 	},
 	_1: _elm_lang$core$Platform_Cmd$none

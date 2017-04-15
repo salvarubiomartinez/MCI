@@ -34,7 +34,7 @@ init = ({usuario = Nothing,
             colaboracion = Nothing,
             selectedTab = TabDenuncias,
             error = Nothing, 
-            token = Nothing, 
+            modelOk = False, 
             register = Register "" "" ""}, 
         Cmd.none)
 
@@ -57,10 +57,12 @@ updateRoute route model =
         Login -> ({model | route = route}, Cmd.none)
         Registro -> ({model | route = route}, Cmd.none)
         Index -> ({model | route = route}, Cmd.none)
-        EnviarColaboracion -> ({model | route = route}, Cmd.none)
+        EnviarColaboracion -> ({model | route = route, colaboracion = Just (Colaboracion "" "" "" "" "" "")}, Cmd.none)
         EnviarDenuncia -> ({model | route = route}, Cmd.none)
         AdherirManifiesto -> ({model | route = route}, Cmd.none)
-        Administracion -> ({model | route = route}, getDenuncias)
+        Administracion -> case model.usuario of
+            Nothing -> ({model | route = Login}, Cmd.none)
+            Just u -> ({model | route = route}, getDenuncias u)
         
 
         

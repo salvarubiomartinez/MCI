@@ -10,21 +10,37 @@ import Json.Decode as Json
 import Json.Encode as Encode
 import Settings exposing (..)
 
-
+enviarColaboracionUpdate: EnviarColaboracionActions -> Model -> (Model, Cmd Msg)
 enviarColaboracionUpdate msg model =
-    case msg of
-        UpdateColaboracion info ->
-            ({model | colaboracion = Just (Colaboracion 1 info)}, Cmd.none)
-        PostColaboracion colaboracion ->
-            case colaboracion of
+     case model.colaboracion of
                 Nothing -> (model, Cmd.none)
-                Just colab -> case model.usuario of
-                                Nothing -> (model, Cmd.none)
-                                Just user -> (model, postColaboracion user colab)
-        PostColaboracionResponse (Ok response) ->
-            ({model | route = Index}, Cmd.none)
-        PostColaboracionResponse (Err error) ->
-            ({model | error = Just (toString error)}, Cmd.none)
+                Just colab ->
+                    case msg of
+                        UpdateColaboracionNom val ->
+                            ({model | colaboracion = Just ({colab | nom = val })}, Cmd.none)
+                        UpdateColaboracionCognoms val ->
+                            ({model | colaboracion = Just ({colab | cognoms = val })}, Cmd.none)
+                        UpdateColaboracionDni val ->
+                            ({model | colaboracion = Just ({colab | dni = val })}, Cmd.none)
+                        UpdateColaboracionLocalitat val ->
+                            ({model | colaboracion = Just ({colab | localitat = val })}, Cmd.none)
+                        UpdateColaboracionPoblacio val ->
+                            ({model | colaboracion = Just ({colab | poblacio = val })}, Cmd.none)
+                        PostColaboracion colaboracion ->
+                            if checkColaboracion colaboracion 
+                            then
+                                case model.usuario of
+                                                Nothing -> (model, Cmd.none)
+                                                Just user -> (model, postColaboracion user colaboracion)
+                            else (model, Cmd.none)
+                        PostColaboracionResponse (Ok response) ->
+                            ({model | route = Index}, Cmd.none)
+                        PostColaboracionResponse (Err error) ->
+                            ({model | error = Just (toString error)}, Cmd.none)
+
+checkColaboracion: Colaboracion -> Bool
+checkColaboracion colaboracion = 
+    if String.isEmpty colaboracion.nom || String.isEmpty colaboracion.cognoms || String.isEmpty colaboracion.dni then False else True  
 
 postColaboracion : Usuario -> Colaboracion -> Cmd Msg
 postColaboracion usuario colaboracion = Http.send (\a -> EnviarColaboracionMsg (PostColaboracionResponse a)) 
@@ -37,7 +53,7 @@ loginColaboracion usuario colaboracion =
     { method = "POST"
     , headers = [Http.header "Content-Type" "application/json", Http.header "Authorization" (usuario.email ++", "++ usuario.token)]
     , url = apiUrl ++ "/api/socio"
-    , body = jsonBody (encodeColaboracion colaboracion)
+    , body = jsonBody (encodeColaboracion ({colaboracion| email = usuario.email}))
     , expect = expectJson colaboracionDecoder
     , timeout = Nothing
     , withCredentials = False
@@ -48,24 +64,41 @@ loginColaboracion usuario colaboracion =
 encodeColaboracion : Colaboracion -> Encode.Value
 encodeColaboracion colaboracion = 
     Encode.object
-      [ ("usuarioId", Encode.int colaboracion.usuarioId)
-      , ("info", Encode.string colaboracion.info)
+      [ ("nom", Encode.string colaboracion.nom)
+      , ("cognoms", Encode.string colaboracion.cognoms)
+      , ("email", Encode.string colaboracion.email)
+      , ("dni", Encode.string colaboracion.dni)
+      , ("localitat", Encode.string colaboracion.localitat)
+      , ("poblacio", Encode.string colaboracion.poblacio)
       ]
 
+enviarColaboracionView: Model -> Html Msg
 enviarColaboracionView model = 
     let 
         colaboracion = case model.colaboracion of
-            Nothing -> Colaboracion 1 ""
+            Nothing -> Colaboracion "" "" "" "" "" ""
             Just colab -> colab
     in
     div [][
         h1 [][text "Colaboración"],
-        p [][text <| "info: " ++ colaboracion.info],
+ --       p [][text <| "nom: " ++ colaboracion.nom],
+        inputView "Nom" UpdateColaboracionNom colaboracion.nom,
+        inputView "Cognoms" UpdateColaboracionCognoms colaboracion.cognoms,
+        inputView "Dni" UpdateColaboracionDni colaboracion.dni,
+        inputView "Localitat" UpdateColaboracionLocalitat "not required",
+        inputView "Poblacio" UpdateColaboracionPoblacio "not required",
         div [class "form-group"][
-            label [][text "info"],
-            textarea [class "form-control", attribute "rows" "3", onInput (\st -> EnviarColaboracionMsg (UpdateColaboracion st))][]
+            button [class "btn btn-default", onClick (EnviarColaboracionMsg (PostColaboracion colaboracion))][text "enviar"]
         ],
         div [class "form-group"][
-            button [class "btn btn-default", onClick (EnviarColaboracionMsg (PostColaboracion model.colaboracion))][text "enviar"]
+            button [class "btn btn-default", onClick (UpdateRoute Index)][text "cancel·lar"]
         ]
     ]
+
+
+inputView labelName msg valor =
+    div [class "form-group"][
+            label [][text labelName],
+            input [class "form-control", attribute "required" "true", onInput <| EnviarColaboracionMsg << msg][],
+            p [style [("color","red")]][text (if valor == "" then "Aquest camp és obligatori" else "")]
+        ]

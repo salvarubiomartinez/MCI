@@ -9,7 +9,7 @@ type alias Usuario = {email : String, token :String}
 type alias Denuncia = {id: Int, usuarioId : Int, fecha : String, nombre: String, exposicion : String} --, comentarios : List Comentario}
 --type alias Comentario = {autor: String, hora : String, contenido : String}
 type alias AdhesionManifiesto = {id: Int, usuarioId: Int, info : String}
-type alias Colaboracion = {usuarioId: Int, info : String}
+type alias Colaboracion = {nom: String, cognoms: String, email: String, dni: String, localitat: String, poblacio: String}
 type TabSelection = TabDenuncias | TabAdhesiones | TabColaboraciones
 type alias Token = Maybe String
 type alias Register =  {email: String, psw : String, psw2 : String}
@@ -23,7 +23,7 @@ type alias Model = {usuario: Maybe Usuario,
                     colaboracion : Maybe Colaboracion,
                     selectedTab : TabSelection,
                     error : Maybe String, 
-                    token: Token, 
+                    modelOk: Bool, 
                     register: Register}
 
 --Decoders
@@ -51,10 +51,14 @@ adhesionManifiestoDecoder = Json.map3
     (Json.field "usuarioId" Json.int)
     (Json.field "info" Json.string)
 
-colaboracionDecoder = Json.map2
+colaboracionDecoder = Json.map6
   Colaboracion
-    (Json.field "usuarioId" Json.int)
-    (Json.field "info" Json.string)
+    (Json.field "nom" Json.string)
+    (Json.field "cognoms" Json.string)
+    (Json.field "email" Json.string)
+    (Json.field "dni" Json.string)
+    (Json.field "localitat" Json.string)
+    (Json.field "poblacio" Json.string)
 
 --comentarioDecoder: Json.Decoder Comentario
 --comentarioDecoder = Json.map3
