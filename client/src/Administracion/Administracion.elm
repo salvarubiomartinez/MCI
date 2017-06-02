@@ -139,23 +139,31 @@ administracionView model =
                                         ]
                                     ]
                                 ],
-                                div [class ("tab-pane" ++ tabColaboraciones)][
-                                    div [class "list-group col-md-4"]
-                                    <| List.map (\ item ->
-                                    a [class ("list-group-item" ++ (if colaboracion.dni == item.dni then " active" else "")), 
-                                        onClick (AdministracionMsg (SelectColaboracion item))][
-                                        h4 [class "list-group-item-heading"][text <| item.nom ++ " " ++ item.cognoms],
-                                        p[class "list-group-item-text"][text item.email]]) model.allItems.colaboraciones,
-                                    div [class "col-md-8"][
-                                        div [][
-                                            p [][text ("nom: " ++ colaboracion.nom)],
-                                            p [][text ("cognoms: " ++ colaboracion.cognoms)],
-                                            p [][text ("email: " ++ colaboracion.email)],
-                                            p [][text ("dni: " ++ colaboracion.dni)],
-                                            p [][text ("localitat: " ++ colaboracion.localitat)],
-                                            p [][text ("població: " ++ colaboracion.poblacio)]
+                                div [class ("tab-pane " ++ tabColaboraciones)][
+                                    div [class "table-responsive"][
+                                        table [class "table table-striped"]
+                                        [ thead [][
+                                            tr [][
+                                                th [][text "Nom"],
+                                                th [][text "Cognoms"],
+                                                th [][text "Email"],
+                                                th [][text "Dni"],
+                                                th [][text "Localitat"],
+                                                th [][text "Població"]
+                                            ]
+                                        ],
+                                            tbody []
+                                            <| List.map (\item -> tr [] [
+                                                td [][text item.nom],
+                                                td [][text item.cognoms],
+                                                td [][text item.email],
+                                                td [][text item.dni],
+                                                td [][text item.localitat],
+                                                td [][text item.poblacio]
+                                            ]) model.allItems.colaboraciones
                                         ]
                                     ]
+                                    
                                 ]
                             ]
                         ]

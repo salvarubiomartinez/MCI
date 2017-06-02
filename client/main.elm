@@ -72,10 +72,10 @@ view model =
                             Nothing -> ""
                             Just error -> "error: " ++ error
             in
-            div [class "container"][
-            div [class "panel panel-warning"][
-                div [class "panel-body"][text (error ++ "route: " ++ toString (model.route))]
-            ],
+            div [class "container-fluid"][
+            --div [class "panel panel-warning"][
+            --    div [class "panel-body"][text (error ++ " route: " ++ toString (model.route))]
+            --],
             (case model.usuario of 
                 Nothing -> p [][]
                 Just user -> p [][text ("usuario: " ++ user.email )])

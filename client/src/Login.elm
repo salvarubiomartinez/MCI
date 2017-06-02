@@ -44,8 +44,8 @@ loginSend login = Http.send (\a -> LoginMsg (GetLogin a))  <| loginPost login
 
 loginView: LoginUser -> Html Msg
 loginView login = div [][
-    p [][text <| "email :" ++ login.email],
-    p [][text <| "passwotd :" ++ login.psw],
+    --p [][text <| "email :" ++ login.email],
+    --p [][text <| "passwotd :" ++ login.psw],
     h3 [][text "Login"],
     div [][
         div [class "form-group"][

@@ -46,9 +46,9 @@ registerSend register = Http.send (\a -> RegisterMsg (GetRegister a))  <| regist
 --
 registerView: Register -> Html Msg
 registerView register = div [][
-    p [][text <| "email :" ++ register.email],
-    p [][text <| "passwotd :" ++ register.psw],
-    p [][text <| "passwotd2 :" ++ register.psw2],
+    --p [][text <| "email :" ++ register.email],
+    --p [][text <| "passwotd :" ++ register.psw],
+    --p [][text <| "passwotd2 :" ++ register.psw2],
     h3 [][text "Register"],
     div [][
         div [class "form-group"][
